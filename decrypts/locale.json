@@ -1,0 +1,158 @@
+{
+  "kind": "locale-metadata",
+  "count": 10,
+  "remaining": 0,
+  "locales": [
+    {
+      "index": 0,
+      "unknown_i32": 1,
+      "payload_length": 15,
+      "payload_offset": 9,
+      "aliases": [
+        "ko"
+      ],
+      "primary_locale": "ko",
+      "display_name": "한국어",
+      "digit_group_separator": ",",
+      "digit_group_separator_byte": 44
+    },
+    {
+      "index": 1,
+      "unknown_i32": 29,
+      "payload_length": 13,
+      "payload_offset": 32,
+      "aliases": [
+        "en"
+      ],
+      "primary_locale": "en",
+      "display_name": "English",
+      "digit_group_separator": " ",
+      "digit_group_separator_byte": 32
+    },
+    {
+      "index": 2,
+      "unknown_i32": 4,
+      "payload_length": 27,
+      "payload_offset": 53,
+      "aliases": [
+        "th"
+      ],
+      "primary_locale": "th",
+      "display_name": "ภาษาไทย",
+      "digit_group_separator": ",",
+      "digit_group_separator_byte": 44
+    },
+    {
+      "index": 3,
+      "unknown_i32": 20,
+      "payload_length": 23,
+      "payload_offset": 88,
+      "aliases": [
+        "zh-Hans",
+        "zh-CN"
+      ],
+      "primary_locale": "zh-Hans",
+      "display_name": "简体",
+      "digit_group_separator": "",
+      "digit_group_separator_byte": 0
+    },
+    {
+      "index": 4,
+      "unknown_i32": 20,
+      "payload_length": 35,
+      "payload_offset": 119,
+      "aliases": [
+        "zh-Hant",
+        "zh-MO",
+        "zh-HK",
+        "zh-TW"
+      ],
+      "primary_locale": "zh-Hant",
+      "display_name": "繁体",
+      "digit_group_separator": "",
+      "digit_group_separator_byte": 0
+    },
+    {
+      "index": 5,
+      "unknown_i32": 5,
+      "payload_length": 56,
+      "payload_offset": 162,
+      "aliases": [
+        "ru",
+        "uk",
+        "be",
+        "hy",
+        "az",
+        "tt",
+        "kk",
+        "ky",
+        "uz",
+        "ka",
+        "tg",
+        "tk",
+        "ro"
+      ],
+      "primary_locale": "ru",
+      "display_name": "Русский",
+      "digit_group_separator": " ",
+      "digit_group_separator_byte": 32
+    },
+    {
+      "index": 6,
+      "unknown_i32": 8,
+      "payload_length": 14,
+      "payload_offset": 226,
+      "aliases": [
+        "ar"
+      ],
+      "primary_locale": "ar",
+      "display_name": "عربى",
+      "digit_group_separator": " ",
+      "digit_group_separator_byte": 32
+    },
+    {
+      "index": 7,
+      "unknown_i32": 8,
+      "payload_length": 16,
+      "payload_offset": 248,
+      "aliases": [
+        "fa"
+      ],
+      "primary_locale": "fa",
+      "display_name": "فارسی",
+      "digit_group_separator": " ",
+      "digit_group_separator_byte": 32
+    },
+    {
+      "index": 8,
+      "unknown_i32": 5,
+      "payload_length": 14,
+      "payload_offset": 272,
+      "aliases": [
+        "es"
+      ],
+      "primary_locale": "es",
+      "display_name": "Español",
+      "digit_group_separator": ".",
+      "digit_group_separator_byte": 46
+    },
+    {
+      "index": 9,
+      "unknown_i32": 5,
+      "payload_length": 16,
+      "payload_offset": 294,
+      "aliases": [
+        "pt"
+      ],
+      "primary_locale": "pt",
+      "display_name": "Português",
+      "digit_group_separator": ".",
+      "digit_group_separator_byte": 46
+    }
+  ],
+  "source": "acies-apktool/assets/locale.xmf",
+  "layers": [
+    "plain/unknown"
+  ],
+  "decoded_size": 310
+}

@@ -1,0 +1,1887 @@
+[
+  {
+    "address": "0x500560",
+    "symbol": "PVPGateway::receiveChannelBlock()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x5002e0",
+    "symbol": "PVPGateway::receiveChannelChat()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4ffff4",
+    "symbol": "PVPGateway::receiveChannelEnter()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x500198",
+    "symbol": "PVPGateway::receiveChannelExit()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x5005e8",
+    "symbol": "PVPGateway::receiveChatFail()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fe1e4",
+    "symbol": "PVPGateway::receiveClanChat()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4fe428",
+    "symbol": "PVPGateway::receiveClanChatHistory()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Length",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fe76c",
+    "symbol": "PVPGateway::receiveClanMemberStates()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Length",
+        "imm_w1": 255
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fe07c",
+    "symbol": "PVPGateway::receiveClanNotification()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fed64",
+    "symbol": "PVPGateway::receiveFriendAccept()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4ff12c",
+    "symbol": "PVPGateway::receiveFriendDeny()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4ff420",
+    "symbol": "PVPGateway::receiveFriendRemove()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fe864",
+    "symbol": "PVPGateway::receiveFriendRequest()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4f9228",
+    "symbol": "PVPGateway::receiveLogin()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Length",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Length",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Length",
+        "imm_w1": 255
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fd9e8",
+    "symbol": "PVPGateway::receiveMatchChat()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fdc08",
+    "symbol": "PVPGateway::receiveMatchCommand()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Float",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fb500",
+    "symbol": "PVPGateway::receiveMatchCreate()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4fb684",
+    "symbol": "PVPGateway::receiveMatchEnter()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Short",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fbbf8",
+    "symbol": "PVPGateway::receiveMatchExit()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fcbf8",
+    "symbol": "PVPGateway::receiveMatchExpire()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fc84c",
+    "symbol": "PVPGateway::receiveMatchInvite()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fc0d4",
+    "symbol": "PVPGateway::receiveMatchLevelCorrection()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fc1fc",
+    "symbol": "PVPGateway::receiveMatchObserverDelay()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Short",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fdd90",
+    "symbol": "PVPGateway::receiveMatchPause()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fdf1c",
+    "symbol": "PVPGateway::receiveMatchPredict()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fc5c0",
+    "symbol": "PVPGateway::receiveMatchQuit()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fd67c",
+    "symbol": "PVPGateway::receiveMatchReady()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4fca94",
+    "symbol": "PVPGateway::receiveMatchRefuse()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fc324",
+    "symbol": "PVPGateway::receiveMatchSlot()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fd788",
+    "symbol": "PVPGateway::receiveMatchStart()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Short",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fcd40",
+    "symbol": "PVPGateway::receiveMatchSwap()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fd8c4",
+    "symbol": "PVPGateway::receiveMatchSync()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x500720",
+    "symbol": "PVPGateway::receiveMessage()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4ffe14",
+    "symbol": "PVPGateway::receiveNoticeList()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4f8da4",
+    "symbol": "PVPGateway::receivePacket()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Int",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fb4bc",
+    "symbol": "PVPGateway::receivePartyBack()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fb2c0",
+    "symbol": "PVPGateway::receivePartyChat()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4f9cc8",
+    "symbol": "PVPGateway::receivePartyCreate()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4f9e70",
+    "symbol": "PVPGateway::receivePartyEnter()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fa224",
+    "symbol": "PVPGateway::receivePartyExit()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4facd0",
+    "symbol": "PVPGateway::receivePartyExpire()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fa920",
+    "symbol": "PVPGateway::receivePartyInvite()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fa590",
+    "symbol": "PVPGateway::receivePartyMap()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fb288",
+    "symbol": "PVPGateway::receivePartyMatch()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fadf8",
+    "symbol": "PVPGateway::receivePartyRedirect()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4fab6c",
+    "symbol": "PVPGateway::receivePartyRefuse()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fa700",
+    "symbol": "PVPGateway::receivePartySlot()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4faf1c",
+    "symbol": "PVPGateway::receivePartyStart()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4fb2bc",
+    "symbol": "PVPGateway::receivePartySync()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x500890",
+    "symbol": "PVPGateway::receiveShutdown()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x5009a4",
+    "symbol": "PVPGateway::receiveSocketEvent(CSSocket*, CSSocketEvent)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 100
+      }
+    ]
+  },
+  {
+    "address": "0x4f99c8",
+    "symbol": "PVPGateway::receiveUpdateProfile()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x4f96a4",
+    "symbol": "PVPGateway::receiveUpdateState()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4ff84c",
+    "symbol": "PVPGateway::receiveUserChat()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "read",
+        "type": "String",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x4ff714",
+    "symbol": "PVPGateway::receiveUserState()",
+    "buffer_ops": [
+      {
+        "op": "read",
+        "type": "Long",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x503fb8",
+    "symbol": "PVPGateway::requestArenaDeck()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 55
+      }
+    ]
+  },
+  {
+    "address": "0x503d5c",
+    "symbol": "PVPGateway::requestChannelChat(char const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 51
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 51
+      }
+    ]
+  },
+  {
+    "address": "0x503b70",
+    "symbol": "PVPGateway::requestChannelEnter()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x503bd4",
+    "symbol": "PVPGateway::requestChannelEnter(char const*, char const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 49
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 49
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 49
+      }
+    ]
+  },
+  {
+    "address": "0x503cb0",
+    "symbol": "PVPGateway::requestChannelExit()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 50
+      }
+    ]
+  },
+  {
+    "address": "0x503408",
+    "symbol": "PVPGateway::requestClanChat(char const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 39
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 39
+      }
+    ]
+  },
+  {
+    "address": "0x503e60",
+    "symbol": "PVPGateway::requestClanChatConfirm()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 16
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "ToFile",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x503f04",
+    "symbol": "PVPGateway::requestClanDeck()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 54
+      }
+    ]
+  },
+  {
+    "address": "0x503320",
+    "symbol": "PVPGateway::requestClanNotification(long, long, bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 38
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 38
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 38
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x500e60",
+    "symbol": "PVPGateway::requestConnect()",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x5035a0",
+    "symbol": "PVPGateway::requestFriendAccept(User const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 43
+      }
+    ]
+  },
+  {
+    "address": "0x50365c",
+    "symbol": "PVPGateway::requestFriendDeny(long)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 44
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 44
+      }
+    ]
+  },
+  {
+    "address": "0x503718",
+    "symbol": "PVPGateway::requestFriendRemove(long)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 45
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 45
+      }
+    ]
+  },
+  {
+    "address": "0x5034e4",
+    "symbol": "PVPGateway::requestFriendRequest(UserThumb const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 42
+      }
+    ]
+  },
+  {
+    "address": "0x50406c",
+    "symbol": "PVPGateway::requestLanguage()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 56
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 56
+      }
+    ]
+  },
+  {
+    "address": "0x500ee0",
+    "symbol": "PVPGateway::requestLogin(bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": 18
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": 1
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": 1
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": 23
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": 23
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 1
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Length",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Length",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 1
+      },
+      {
+        "op": "write",
+        "type": "Length",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Length",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x503030",
+    "symbol": "PVPGateway::requestMatchAuto(bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 34
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 34
+      }
+    ]
+  },
+  {
+    "address": "0x502d84",
+    "symbol": "PVPGateway::requestMatchChat(char const*, bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 31
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 31
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 31
+      }
+    ]
+  },
+  {
+    "address": "0x502e5c",
+    "symbol": "PVPGateway::requestMatchCommand(void const*, unsigned int)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 32
+      }
+    ]
+  },
+  {
+    "address": "0x5022dc",
+    "symbol": "PVPGateway::requestMatchCreate(GameOnlineMode, GameLevelCorrection, int, int, int, MapThumb const*, char const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 17
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 17
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 17
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x502460",
+    "symbol": "PVPGateway::requestMatchEnter(unsigned int, unsigned int, bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 18
+      },
+      {
+        "op": "write",
+        "type": "Int",
+        "imm_w1": 18
+      },
+      {
+        "op": "write",
+        "type": "Int",
+        "imm_w1": 18
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x502548",
+    "symbol": "PVPGateway::requestMatchExit()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 19
+      }
+    ]
+  },
+  {
+    "address": "0x502900",
+    "symbol": "PVPGateway::requestMatchInvite(UserThumb const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 24
+      }
+    ]
+  },
+  {
+    "address": "0x502f2c",
+    "symbol": "PVPGateway::requestMatchLatency(int, int, float, unsigned int)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 33
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 33
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 33
+      },
+      {
+        "op": "write",
+        "type": "Float",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Int",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x5025f4",
+    "symbol": "PVPGateway::requestMatchLevelCorrection(GameLevelCorrection)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 20
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 20
+      }
+    ]
+  },
+  {
+    "address": "0x5026b0",
+    "symbol": "PVPGateway::requestMatchObserverDelay(int)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 21
+      },
+      {
+        "op": "write",
+        "type": "Short",
+        "imm_w1": 21
+      }
+    ]
+  },
+  {
+    "address": "0x5030ec",
+    "symbol": "PVPGateway::requestMatchPause(bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 35
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 35
+      }
+    ]
+  },
+  {
+    "address": "0x5031a8",
+    "symbol": "PVPGateway::requestMatchPredict(int)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 36
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 36
+      }
+    ]
+  },
+  {
+    "address": "0x502844",
+    "symbol": "PVPGateway::requestMatchQuit(long)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 23
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 23
+      }
+    ]
+  },
+  {
+    "address": "0x502b6c",
+    "symbol": "PVPGateway::requestMatchReady()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 28
+      }
+    ]
+  },
+  {
+    "address": "0x5029bc",
+    "symbol": "PVPGateway::requestMatchRefuse(long, bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 25
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 25
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 25
+      }
+    ]
+  },
+  {
+    "address": "0x503264",
+    "symbol": "PVPGateway::requestMatchResult(GameResult)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 37
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 37
+      }
+    ]
+  },
+  {
+    "address": "0x50276c",
+    "symbol": "PVPGateway::requestMatchSlot(int, GameControl)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 22
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 22
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 22
+      }
+    ]
+  },
+  {
+    "address": "0x502c18",
+    "symbol": "PVPGateway::requestMatchStart()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 29
+      }
+    ]
+  },
+  {
+    "address": "0x502a94",
+    "symbol": "PVPGateway::requestMatchSwap(long, int)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 27
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 27
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 27
+      }
+    ]
+  },
+  {
+    "address": "0x502cc4",
+    "symbol": "PVPGateway::requestMatchSync()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 30
+      }
+    ]
+  },
+  {
+    "address": "0x504124",
+    "symbol": "PVPGateway::requestMessageCardObtain(AssetIndex2 const&)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 57
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 57
+      }
+    ]
+  },
+  {
+    "address": "0x502230",
+    "symbol": "PVPGateway::requestPartyBack()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 16
+      }
+    ]
+  },
+  {
+    "address": "0x502174",
+    "symbol": "PVPGateway::requestPartyChat(char const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 15
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 15
+      }
+    ]
+  },
+  {
+    "address": "0x5019d4",
+    "symbol": "PVPGateway::requestPartyCreate(GameOnlineMode, int, int, int, char const*, bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 3
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 3
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 3
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": null
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x501b04",
+    "symbol": "PVPGateway::requestPartyEnter(char const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 4
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 4
+      }
+    ]
+  },
+  {
+    "address": "0x501bc0",
+    "symbol": "PVPGateway::requestPartyExit()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 5
+      }
+    ]
+  },
+  {
+    "address": "0x501df8",
+    "symbol": "PVPGateway::requestPartyInvite(UserThumb const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 8
+      }
+    ]
+  },
+  {
+    "address": "0x501c6c",
+    "symbol": "PVPGateway::requestPartyMap(AssetIndex4 const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 6
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 6
+      }
+    ]
+  },
+  {
+    "address": "0x501eb4",
+    "symbol": "PVPGateway::requestPartyRefuse(long, bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 9
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 9
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 9
+      }
+    ]
+  },
+  {
+    "address": "0x501d3c",
+    "symbol": "PVPGateway::requestPartySlot(int)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 7
+      },
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 7
+      }
+    ]
+  },
+  {
+    "address": "0x501f8c",
+    "symbol": "PVPGateway::requestPartyStart(bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 12
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": 12
+      }
+    ]
+  },
+  {
+    "address": "0x5020c8",
+    "symbol": "PVPGateway::requestPartySync()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 14
+      }
+    ]
+  },
+  {
+    "address": "0x500b98",
+    "symbol": "PVPGateway::requestPing()",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 100
+      }
+    ]
+  },
+  {
+    "address": "0x4f87b4",
+    "symbol": "PVPGateway::requestShutdown(bool)",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x5018f4",
+    "symbol": "PVPGateway::requestUpdateProfile(bool)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 2
+      },
+      {
+        "op": "write",
+        "type": "Boolean",
+        "imm_w1": null
+      }
+    ]
+  },
+  {
+    "address": "0x501830",
+    "symbol": "PVPGateway::requestUpdateState(UserState const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 1
+      }
+    ]
+  },
+  {
+    "address": "0x5041e0",
+    "symbol": "PVPGateway::requestUserBlock(long)",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x503890",
+    "symbol": "PVPGateway::requestUserChat(UserThumb const*, char const*)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 47
+      },
+      {
+        "op": "write",
+        "type": "String",
+        "imm_w1": 47
+      }
+    ]
+  },
+  {
+    "address": "0x503abc",
+    "symbol": "PVPGateway::requestUserChatClose(long)",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x503a94",
+    "symbol": "PVPGateway::requestUserChatConfirm(long)",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x503974",
+    "symbol": "PVPGateway::requestUserChatCreate(UserThumb const*)",
+    "buffer_ops": []
+  },
+  {
+    "address": "0x5037d4",
+    "symbol": "PVPGateway::requestUserState(long)",
+    "buffer_ops": [
+      {
+        "op": "write",
+        "type": "Byte",
+        "imm_w1": 46
+      },
+      {
+        "op": "write",
+        "type": "Long",
+        "imm_w1": 46
+      }
+    ]
+  },
+  {
+    "address": "0x5041f0",
+    "symbol": "PVPGateway::requestUserUnblock(long)",
+    "buffer_ops": []
+  }
+]

@@ -1,0 +1,11 @@
+index,unknown_i32,primary_locale,aliases,display_name,digit_group_separator,digit_group_separator_byte
+0,1,ko,ko,한국어,",",44
+1,29,en,en,English, ,32
+2,4,th,th,ภาษาไทย,",",44
+3,20,zh-Hans,zh-Hans|zh-CN,简体,,0
+4,20,zh-Hant,zh-Hant|zh-MO|zh-HK|zh-TW,繁体,,0
+5,5,ru,ru|uk|be|hy|az|tt|kk|ky|uz|ka|tg|tk|ro,Русский, ,32
+6,8,ar,ar,عربى, ,32
+7,8,fa,fa,فارسی, ,32
+8,5,es,es,Español,.,46
+9,5,pt,pt,Português,.,46

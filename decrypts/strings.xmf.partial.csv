@@ -1,0 +1,89 @@
+index,ar,en,es,fa,ko,pt,ru,th,zh-Hans,zh-Hant
+0,حسناً,OK,Aceptar,اوکی,확인,OK,ОК,โอเค,确定,確定
+1,إلغاء,Cancel,Cancelar,لغو,취소,Cancelar,Отмена,ยกเลิก,取消,取消
+2,هل تريد الخروج من اللعبة؟,Do you want to quit ACIES:BATTLE RUNES?,¿Quiere salir de ACIES:BATTLE RUNES?,میخوای از بازی خارج بشی؟,아키에스:배틀룬스를 종료 하시겠습니까?,Quer sair do ACIES:BATTLE RUNES?,Покинуть ACIES:BATTLE RUNES?,คุณต้องการที่จะออกจาก WOC: ศึกแห่งรูน หรือไม่?,确定要退出游戏吗？,確定要退出WOC:BATTLE RUNES嗎？
+3,مستوى,Lv,Nv.,سطح,Lv,Nv,Ур,Lv,等级,Lv
+4,مستوى,Level,Nivel,سطح,레벨,Nível,Уровень,เลเวล,等级,等級
+5,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S,%Y-%m-%d %H:%M:%S
+6,%d d,%d d,%d d,%d d,%d일,%d d,%d д.,%d วัน,%d天,%d天
+7,%d h,%d h,%d h,%d h,%d시간,%d h,%d ч.,%d ขั่วโมง,%d小时,%d時
+8,%d m,%d m,%d m,%d m,%d분,%d m,%d мин.,%d นาที,%d分钟,%d分
+9,%d s,%d s,%d s,%d s,%d초,%d s,%d сек.,%d วินาที,%d秒,%d秒
+10,قبل,Before,Antes,قبل,전,Antes de,До,ก่อน,前,前
+11,بعد,After,Después,بعد,후,Depois,После,หลัง,后,後
+12,إعادة الإتصال,Reconnect,Reconexión,اتصال مجدد,재접속,Reconectar,Подключиться,ต่อใหม่,重新登录,重新連接
+13,مستوى%d,Lv.%d,Nv.%d,سطح %d,Lv.%d,Nv.%d,Ур.%d,Lv.%d,%d级,Lv.%d
+14,تأييد,Confirm,Confirmar,تایید,최종 선택,confirmar,Подтвердить,ยืนยัน,最终选择,確認
+15,رفض,Reject,Rechazar,رد,거절,Rejeitar,Отклонить,ปฏิเสธ,拒绝,拒絕
+16,حذف,Delete,Eliminar,حذف,삭제,Deletar,Удалить,ลบ,删除,刪除
+17,حفظ,Save,Guardar,ذخیره,저장,Salvar,Сохранить,บันทึก,保存,保存
+18,الوقت المتبقى,Remaining Time,Tiempo Restante,زمان باقیمانده,남은 시간,Tempo restante,Оставшееся время,เวลาที่เหลืออยู่,剩余时间,剩餘時間
+19,التعريف,id,id,شناسه,id,Identificação,ID,id,ID,ID
+20,شراء,Purchase,Comprar,خرید,구매,Comprar,Купить,ซื้อ,购买,購買
+21,حركة,Move,Mover,حرکت,이동,Mover,Перейти,ขยับ,移动,移動
+22,تمرير,Skip,Saltar,گذشتن,Skip,Pular,Пропустить,ข้าม,跳过,跳過
+23,فتح,On,On,روشن,On,On,Вкл.,เปิด,开,開
+24,غلق,Off,Off,خاموش,Off,Off,Выкл.,ปิด,关,關
+25,صنع,Create,Crear,ایجاد,생성,Criar,Создать,สร้าง,创建,創建
+26,إختر دولة,Select Country,Seleccionar País,انتخاب کشور,국가 선택,Selecionar o pais,Выбор страны,เลือกประเทศ,选择国家,選擇國家
+27,معلومات,Information,Información,اطلاعات,정보,Informação,Информация,ข้อมูล,信息,訊息
+28,مدة المعركة,Battle Time,Tiempo de Batalla,زمان نبرد,전투시간,Tempo de Batalha,Время битвы,ระยะเวลาต่อสู้,战斗时间,戰鬥時間
+29,ضد,VS,VS,در برابر,VS,VS,VS,VS,VS,VS
+30,لعب,Play,Jugar,بازی,메인,Reproduzir,Играть,เล่น,主页,主頁
+31,نسخ,Copy,Copiar,کپی,복사,Copiar,Копировать,ลอก,复制,複製
+32,غير متاح,N/A,N/A,عدم دسترسی,미보유,N/A,Нет в наличии,ไม่มี,未持有,N/A
+33,عادي,Common,Común,معمولی,일반,Comum,Обычная,ปกติ,普通,基礎
+34,نادر,Rare,Raro,کمیاب,희귀,Raro,Редкая,หายาก,稀有,精良
+35,بطولي,Heroic,Heroico,قهرمان,영웅,Heróico,Героич.,วีรบุรุษ,至尊,稀有
+36,أسطوري,Legendary,Legendario,افسانه‌ای,전설,Lendário,Легенд.,ตำนาน,传说,傳說
+37,ملاحظة,Tip,Aviso,نکته,팁,Dica,Подсказка,คำแนะนำ,提示,提示
+38,إختيار,Select,Seleccionar,انتخاب,선택,Selecionar,Выбрать,เลือก,选择,選擇
+39,دخول,Enter,Entrar,ورود,입장,Digitar,Войти,ตกลง,入场,入場
+40,إستخدام,Use,Usar,استفاده,사용,Usar,Использовать,ใช้,使用,使用
+41,غير فعال,Disabled,Deshabilitar,غیرفعال,미사용,Desabilitado,Неактивно,ปิดการใช้งาน,未使用,未使用
+42,مشاهدة,View,Ver,نمایش,보기,Vier,Просмотр,ดู,查看,查看
+43,الكل,All,Todo,همه,모두,Tudo,Все,ทั้งหมด,全部,全部
+44,تغيير,Change,Cambiar,تغییر,변경,Alterar,Изменить,เปลี่ยน,变更,更改
+45,دعوة,Invite,Invitar,دعوت,초대,Convidar,Приглашение,เชิญ,邀请,邀請
+46,إذهب إلى المتجر,Go to Shop,Ir a la Tienda,برو به فروشگاه,상점이동,Ir para a loja,В Лавку,ไปยังร้านค้า,前往商城,前往商城
+47,الصعوبة,Difficulty,Dificultad,سختی,난이도,Dificuldade,Ур. сложности,เลเวลความยาก,难度,難度
+48,سهل جداً,Very Easy,Muy Fácil,خیلی آسان,Very Easy,Muito Fácil,Очень Легкий,ง่ายมาก,非常简单,非常簡單
+49,سهل,Easy,Fácil,آسان,Easy,Fácil,Легкий,ง่าย,简单,簡單
+50,عادي,Normal,Normal,عادی,Normal,Normal,Обычный,ปกติ,普通,基礎
+51,صعب,Hard,Difícil,سخت,Hard,Difícil,Тяжелый,ยาก,困难,困難
+52,صعب جداً,Very Hard,Muy Difícil,خیلی سخت,Very Hard,Muito Difícil,Очень Тяжелый,ยากมาก,非常困难,非常困難
+53,قبل أقل من دقيقة,Less than 1 min. ago,Menos de 1 min.,کمتر از 1 دقیقه قبل,1분 미만,Menos de 1 min. atrás,Менее 1 мин.,ไม่เกิน1นาที,不足1分钟,不足1分鐘
+54,أليوم,Today,Hoy,امروز,오늘,Hoje,Сегодня,วันนี้,今日,今日
+55,ألبارحة,Yesterday,Ayer,دیروز,어제,Ontem,Вчера,เมื่อวาน,昨日,昨日
+56,السابق,Prev,Anterior,قبلی,이전,Anterior,Пред.,ก่อนหน้า,上一步,前
+57,التالي,Next,Siguiente,بعدی,다음,Próximo,След.,ถัดไป,下一步,后
+58,1ضد1,1vs1,1vs1,1 در برابر 1,1vs1,1vs1,1v1,1 ต่อ 1,1v1,1v1
+59,2ضد2,2vs2,2vs2,2 در برابر 2,2vs2,2vs2,2v2,2 ต่อ 2,2v2,2v2
+60,3ضد3,3vs3,3vs3,3 در برابر 3,3vs3,3vs3,3v3,3 ต่อ 3,3v3,3v3
+61,الوصف,Description,Descripción,توضیحات,설명,Descrição,Описание,คำอธิบาย,描述,描述
+62,مشاركة,Share,Compartir,اشتراک,공유,Compartilhar,Поделиться,แชร์,分享,分享
+63,مستوى,Lv. ,Nv. ,سطح ,Lv. ,Nv. ,Ур. ,Lv.,等级,Lv. 
+64,معركة,Battle,Batalla,نبرد,전투,Batalha,Битва,เริ่มสู้,战斗,戰鬥
+65,النصر,Victory,Victoria,پیروزی,승리,Vitória,Победа,ชัยชนะ,胜利,勝利
+66,الهزيمة,Defeat,Fracaso,شکست,패배,Derrota,Поражение,พ่ายแพ้,失败,失敗
+67,ألمعركة القادمة في:,Next battle in:,Próxima batalla en:,نبرد بعدی در:,다음 전투 까지 :,Próxima batalha em:,До следующей битвы:,การต่อสู้ครั้งต่อไปใน:,下一场战斗开始于：,下一場戰鬥開始於：
+68,مكافأة الإنضمام,Participation Rewards,Recompensas por Participación,پاداش‌های مشارکت,참여 보상,Recompensas de Participação,Награды за участие.,รางวัลการเข้าร่วม,参与奖励,參與獎勵
+69,مكافأة النصر,Victory Rewards,Recompensas por Victoria,پاداش‌های پیروزی,승리 보상,Recompensas de Vitória,Награды за победу,รางวัลจากชัยชนะ,胜利奖励,勝利獎勵
+70,%dW,%dW,%d Victoria,%dW,%d승,%dW,%dW,%dW,%d胜,%dW
+71,%dL,%dL,%d Pérdida,%dL,%d패,%dL,%dL,%dL,%d败,%dL
+72,الفريق,Team,Equipo,تیم,팀,Equipe,Команда,ทิม,团队,團隊
+73,تفعيل,Activate,Activar,فعال‌سازی,사용중,Ativar,Активация,เปิดใช้งาน,启动,啟動
+74,غير متاح,Not Available,No Disponible,ناموجود,미보유,Não Disponível,Нет в наличии,ใช้ไม่ได้,不可用,不可用
+75,تعطيل,Deactivate,Desactivar,غیرفعال‌سازی,해제,Desativar,Деактивация,ปิดใช้งาน,关闭,關閉
+76,%dst,%dst,%dro,%dst,%dst,%dst,%d,%dst,%d天,%d天
+77,%dnd,%dnd,%ddo,%dnd,%dnd,%dnd,%d,%dnd,%d天,%d天
+78,%drd,%drd,%dro,%drd,%drd,%drd,%d,%drd,%d天,%d天
+79,%dth,%dth,%dto,%dth,%dth,%dth,%d,%dth,%d天,%d天
+80,الوقت الجميل,HotTime,HotTime,اوقات خوش,HotTime,HotTime,Горячие часы,HotTime,HotTime,HotTime
+81,تمرير التعليم,Skip Tutorial,Saltar Tutorial,گذشتن از آموزش,튜토리얼 스킵,Pular Tutorial,Пропустить обучение,ข้ามการฝึกสอน,跳过新手教学,跳過新手教學
+82,بدأ التعليم,Run Tutorial,Ingresar Tutorial,شروع آموزش,튜토리얼 진행,Executar Tutorial,Начать обучение,เริ่มการฝึกสอน,进入新手教学,進入新手教學
+83,غير متاح,Unavailable,Indisponible,ناموجود,사용 할수 없음,Indisponível,Недоступно,ไม่พร้อมใช้งาน,不可用,不可用
+84,إنقر للكتابة,Tap to enter text,Tocar para ingresar texto,برای ورود متن ضربه بزن,화면을 눌러서 입력해 주세요.,Tocar para inserir texto,"Нажмите, чтобы ввести текст",กดเพื่อที่จะเข้าสู่ข้อความ,点击以输入文字,點擊以輸入文字
+85,العودة,Revert,Recuperar,برگشت,되돌리기,Reverter,Вернуть,ย้อนกลับ,恢复,恢復
+86,الخروج,Exit,Salir,خروج,종료,Saída,Выход,ออก,退出,退出
+87,نسخة %s.%d,Version %s.%d,Versión %s.%d,نسخه %s.%d,Version %s.%d,Versão %s.%d,Версия %s.%d,เวอร์ชั่น %s.%d,版本 %s.%d,版本 %s.%d

@@ -1,0 +1,48 @@
+# macOS/editor noise
+.DS_Store
+*.swp
+*.swo
+
+# Python/runtime artifacts
+__pycache__/
+*.py[cod]
+.venv*/
+venv/
+
+# APKs, signatures, and local rebuild outputs
+*.apk
+*.apks
+*.aab
+*.idsig
+*.keystore
+*.jks
+
+# Local logs/captures
+*.log
+captures/
+*.mp4
+
+# Decompiled/rebuilt APK trees are reproducible from the APK and scripts.
+acies-apktool/
+acies-jadx/
+
+# Large extracted upstream/source snapshots.
+cdk3/client/
+cdk3/editor/
+cdk3/screenshot/
+
+# Large decoded assets and generated probes.
+decrypts/images/
+decrypts/maps-all/
+decrypts/maps/
+decrypts/game/
+decrypts/meshes/
+decrypts/terrain/
+decrypts/probe-left/
+decrypts/map-fail-probe/
+decrypts/map-probe/
+
+# Very large generated decode dumps; keep summaries/docs instead.
+decrypts/*.decoded
+decrypts/animations.xmf.json
+decrypts/strings.xmf.json

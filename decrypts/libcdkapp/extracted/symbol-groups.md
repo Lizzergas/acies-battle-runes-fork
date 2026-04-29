@@ -1,0 +1,991 @@
+# ACIES Native Symbol Groups
+
+## Analysis (89)
+
+- `Analysis::commitOnce(CSString const*)`
+- `Analysis::commitOnce(char const*)`
+- `Analysis::eventAchievement(AssetIndex2 const&)`
+- `Analysis::eventAdMob(char const*, AdInflow)`
+- `Analysis::eventBuyCard(AssetIndex2 const&, int, bool)`
+- `Analysis::eventBuyCardOpen(AssetIndex2 const&)`
+- `Analysis::eventBuyCardReset(int, int)`
+- `Analysis::eventBuyDeckPage()`
+- `Analysis::eventBuyProduct(AssetIndex2 const&)`
+- `Analysis::eventBuyProductCharge(AssetIndex2 const&)`
+- `Analysis::eventBuyProductChargeFailed(AssetIndex2 const&)`
+- `Analysis::eventBuyProductChargeStart(AssetIndex2 const&)`
+- `Analysis::eventCampaignClear(int)`
+- `Analysis::eventCampaignSkip(int)`
+- `Analysis::eventCardMake(AssetIndex2 const&, int)`
+- `Analysis::eventCardUpgrade(AssetIndex2 const&, int)`
+- `Analysis::eventChallenge(AssetIndex2 const&, bool, int)`
+- `Analysis::eventChallengeBonusGold(AssetIndex2 const&)`
+- `Analysis::eventChallengeLimitOpen(AssetIndex2 const&)`
+- `Analysis::eventChangeCountry(int)`
+- `Analysis::eventChangeDivision(int, int, bool)`
+- `Analysis::eventChangeLevel(int)`
+- `Analysis::eventChangeName(char const*)`
+- `Analysis::eventChannelChat(bool, char const*)`
+- `Analysis::eventChannelEnter()`
+- `Analysis::eventClanChat(long, char const*)`
+- `Analysis::eventClanCreate(long)`
+- `Analysis::eventClanJoin(long)`
+- `Analysis::eventClanLeave(long)`
+- `Analysis::eventCoupon(char const*)`
+- `Analysis::eventFlow(RewardType, long, int, int, char const*)`
+- `Analysis::eventFriend(long, int)`
+- `Analysis::eventGameCancel(GameMode)`
+- `Analysis::eventGameResult(long, GameMode, int, GameResult, int)`
+- `Analysis::eventGameStart(GameMode)`
+- `Analysis::eventGameWaiting(GameMode)`
+- `Analysis::eventInvitation(int)`
+- `Analysis::eventInvitationInput()`
+- `Analysis::eventInvitationRecommend()`
+- `Analysis::eventLaunch()`
+- `Analysis::eventLevelQuest(AssetIndex2 const&)`
+- `Analysis::eventLogin()`
+- `Analysis::eventMastery(AssetIndex2 const&, int)`
+- `Analysis::eventMenuSelect(MenuMode)`
+- `Analysis::eventMinigameAttendance(int, int)`
+- `Analysis::eventMinigameBoardPlay(int, int)`
+- `Analysis::eventMinigameQuest(int, int)`
+- `Analysis::eventMinigameRoulette(int, int)`
+- `Analysis::eventQuest(int, int)`
+- `Analysis::eventRuneUpgrade(AssetIndex2 const&, int)`
+- `Analysis::eventScoreReward(int)`
+- `Analysis::eventTutorial(int)`
+- `Analysis::eventUserChat(long, char const*)`
+- `Analysis::eventUserLevelUp(int)`
+- `Analysis::flowReasonAchievement(AssetIndex2 const&)`
+- `Analysis::flowReasonArena(int)`
+- `Analysis::flowReasonBuyCard(AssetIndex2 const&, int, bool)`
+- `Analysis::flowReasonBuyCardOpen(AssetIndex2 const&)`
+- `Analysis::flowReasonBuyCardReset()`
+- `Analysis::flowReasonBuyDeckPage()`
+- `Analysis::flowReasonBuyProduct(AssetIndex2 const&)`
+- `Analysis::flowReasonCardMake(AssetIndex2 const&, int)`
+- `Analysis::flowReasonCardUpgrade(AssetIndex2 const&, int)`
+- `Analysis::flowReasonChallenge(AssetIndex2 const&, bool, int)`
+- `Analysis::flowReasonChallengeBonusGold()`
+- `Analysis::flowReasonChangeCountry()`
+- `Analysis::flowReasonChangeName()`
+- `Analysis::flowReasonClanArena(int)`
+- `Analysis::flowReasonClanCreate()`
+- `Analysis::flowReasonClanDonate()`
+- `Analysis::flowReasonClanTrade()`
+- `Analysis::flowReasonGameResult()`
+- `Analysis::flowReasonInvitaion(int)`
+- `Analysis::flowReasonInvitaionInput()`
+- `Analysis::flowReasonMail()`
+- `Analysis::flowReasonMastery(AssetIndex2 const&, int)`
+- `Analysis::flowReasonMinigameAttendance(int, int)`
+- `Analysis::flowReasonMinigameBoard()`
+- `Analysis::flowReasonMinigameContinuousAttendance(int, int)`
+- `Analysis::flowReasonMinigameQuest(int, int)`
+- `Analysis::flowReasonMinigameQuestPoint(int, int)`
+- `Analysis::flowReasonMinigameRoulette(int)`
+- `Analysis::flowReasonQuest()`
+- `Analysis::flowReasonRuneUpgrade(AssetIndex2 const&, int)`
+- `Analysis::flowReasonScore(int)`
+- `Analysis::flowReasonSeasonResult(int, int, int, int)`
+- `Analysis::flowReasonTutorial(TutorialCategory, int)`
+- `Analysis::gameMode(GameMode)`
+- `Analysis::menuMode(MenuMode)`
+
+## Asset (45)
+
+- `Asset::Asset()`
+- `Asset::__asset`
+- `Asset::allianceColor`
+- `Asset::clear()`
+- `Asset::country(int) const`
+- `Asset::destroy()`
+- `Asset::destroyFonts()`
+- `Asset::destroyGame()`
+- `Asset::destroyMenu()`
+- `Asset::enemyColor`
+- `Asset::forceColors`
+- `Asset::getFileKey(char const*)`
+- `Asset::gradeColors`
+- `Asset::image(AssetIndex2 const&) const`
+- `Asset::image(AssetIndex2 const&, int) const`
+- `Asset::image(AssetIndex3 const&) const`
+- `Asset::imageFromPath(CSString const*, unsigned int) const`
+- `Asset::imageFromURL(CSString const*, unsigned int) const`
+- `Asset::images(AssetIndex2 const&) const`
+- `Asset::levelQuest(int) const`
+- `Asset::load()`
+- `Asset::loadAnimations()`
+- `Asset::loadFonts()`
+- `Asset::loadGame(int)`
+- `Asset::loadLocales()`
+- `Asset::loadMenu()`
+- `Asset::loadRevision()`
+- `Asset::loadStrings()`
+- `Asset::map(AssetIndex4 const&) const`
+- `Asset::memoryWarning(CSMemoryWarningLevel)`
+- `Asset::neutralColor`
+- `Asset::playerColor0`
+- `Asset::playerColor1`
+- `Asset::purge(unsigned int)`
+- `Asset::readFromFileWithDecryption(char const*, bool, bool, char const*, Asset::DecryptionFileLocation)`
+- `Asset::reload()`
+- `Asset::reloadResource(char const*)`
+- `Asset::reloadRevision()`
+- `Asset::reloadRevision(int)`
+- `Asset::replaySubPath(long)`
+- `Asset::resourceDelegateCallback(CSResourceType, unsigned short const*, int)`
+- `Asset::writeToFileWithEncryption(CSBuffer const*, char const*, bool, char const*)`
+- `Asset::~Asset()`
+
+## AttainData (11)
+
+- `AttainData::AttainData(CSBuffer*)`
+- `AttainData::cheatProgress(AttainCode, unsigned int)`
+- `AttainData::cheatProgress(unsigned int) const`
+- `AttainData::match(AttainCode, int, int) const`
+- `AttainData::matchWithUnit(AssetIndex2 const&) const`
+- `AttainData::orderByState(AttainState)`
+- `AttainData::stringProgress() const`
+- `AttainData::validateProgress() const`
+- `AttainData::~AttainData()`
+
+## CSAppSafer (3)
+
+- `CSAppSafer::finalize()`
+- `CSAppSafer::initialize()`
+- `CSAppSafer::setUserId(char const*)`
+
+## CSBuffer (54)
+
+- `CSBuffer::AESDecrypt(char const*, bool)`
+- `CSBuffer::AESEncrypt(char const*, bool)`
+- `CSBuffer::CSBuffer()`
+- `CSBuffer::CSBuffer(CSData*)`
+- `CSBuffer::CSBuffer(unsigned int)`
+- `CSBuffer::CSBuffer(void*, unsigned int, bool)`
+- `CSBuffer::clear()`
+- `CSBuffer::compress()`
+- `CSBuffer::copy() const`
+- `CSBuffer::createWithContentOfFile(char const*, bool)`
+- `CSBuffer::createWithContentOfFile(char const*, unsigned int, unsigned int, bool)`
+- `CSBuffer::createWithContentOfURL(CSURLRequest const*)`
+- `CSBuffer::mark()`
+- `CSBuffer::read(void*, unsigned int)`
+- `CSBuffer::readBoolean()`
+- `CSBuffer::readByte()`
+- `CSBuffer::readData(unsigned int)`
+- `CSBuffer::readDouble()`
+- `CSBuffer::readFixed()`
+- `CSBuffer::readFloat()`
+- `CSBuffer::readInt()`
+- `CSBuffer::readLength()`
+- `CSBuffer::readLocaleString(CSStringEncoding)`
+- `CSBuffer::readLong()`
+- `CSBuffer::readShort()`
+- `CSBuffer::readString(CSStringEncoding)`
+- `CSBuffer::remainedBuffer() const`
+- `CSBuffer::remainedData() const`
+- `CSBuffer::rewind()`
+- `CSBuffer::shrink()`
+- `CSBuffer::uncompress()`
+- `CSBuffer::write(void const*, unsigned int)`
+- `CSBuffer::writeBoolean(bool)`
+- `CSBuffer::writeBuffer(CSBuffer*)`
+- `CSBuffer::writeByte(int)`
+- `CSBuffer::writeData(CSData const*)`
+- `CSBuffer::writeDouble(double)`
+- `CSBuffer::writeFixed(fixed)`
+- `CSBuffer::writeFloat(float)`
+- `CSBuffer::writeInt(int)`
+- `CSBuffer::writeLength(unsigned int)`
+- `CSBuffer::writeLong(long)`
+- `CSBuffer::writeShort(int)`
+- `CSBuffer::writeString(CSString const*)`
+- `CSBuffer::writeString(CSString const*, CSStringEncoding)`
+- `CSBuffer::writeString(char const*)`
+- `CSBuffer::writeToFile(char const*, bool)`
+- `CSBuffer::~CSBuffer()`
+
+## CSJSON (68)
+
+- `CSJSONArray::addBool(bool)`
+- `CSJSONArray::addDouble(double)`
+- `CSJSONArray::addJSONArray(CSJSONArray const*)`
+- `CSJSONArray::addJSONObject(CSJSONObject const*)`
+- `CSJSONArray::addNumber(long)`
+- `CSJSONArray::addString(char const*)`
+- `CSJSONArray::boolAtIndex(unsigned int) const`
+- `CSJSONArray::copy() const`
+- `CSJSONArray::doubleAtIndex(unsigned int) const`
+- `CSJSONArray::insertBool(unsigned int, bool)`
+- `CSJSONArray::insertDouble(unsigned int, double)`
+- `CSJSONArray::insertJSONArray(unsigned int, CSJSONArray const*)`
+- `CSJSONArray::insertJSONObject(unsigned int, CSJSONObject const*)`
+- `CSJSONArray::insertNumber(unsigned int, long)`
+- `CSJSONArray::insertString(unsigned int, char const*)`
+- `CSJSONArray::jsonArrayAtIndex(unsigned int)`
+- `CSJSONArray::jsonArrayAtIndex(unsigned int) const`
+- `CSJSONArray::jsonObjectAtIndex(unsigned int)`
+- `CSJSONArray::jsonObjectAtIndex(unsigned int) const`
+- `CSJSONArray::numberAtIndex(unsigned int) const`
+- `CSJSONArray::stringAtIndex(unsigned int)`
+- `CSJSONArray::stringAtIndex(unsigned int) const`
+- `CSJSONArray::~CSJSONArray()`
+- `CSJSONObject::boolForKey(char const*, bool) const`
+- `CSJSONObject::containsKey(char const*) const`
+- `CSJSONObject::copy() const`
+- `CSJSONObject::doubleForKey(char const*, bool) const`
+- `CSJSONObject::jsonArrayForKey(char const*, bool)`
+- `CSJSONObject::jsonArrayForKey(char const*, bool) const`
+- `CSJSONObject::jsonObjectForKey(char const*, bool)`
+- `CSJSONObject::jsonObjectForKey(char const*, bool) const`
+- `CSJSONObject::numberForKey(char const*, bool) const`
+- `CSJSONObject::setBool(char const*, bool)`
+- `CSJSONObject::setDouble(char const*, double)`
+- `CSJSONObject::setJSONArray(char const*, CSJSONArray const*)`
+- `CSJSONObject::setJSONObject(char const*, CSJSONObject const*)`
+- `CSJSONObject::setNumber(char const*, long)`
+- `CSJSONObject::setString(char const*, char const*)`
+- `CSJSONObject::stringForKey(char const*, bool)`
+- `CSJSONObject::stringForKey(char const*, bool) const`
+- `CSJSONObject::~CSJSONObject()`
+- `CSJSONParser::parse(char const*)`
+- `CSJSONWriter::CSJSONWriter()`
+- `CSJSONWriter::addElement(rapidjson::GenericValue<rapidjson::UTF8<char>, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> >&, CSObject const*)`
+- `CSJSONWriter::addElement(rapidjson::GenericValue<rapidjson::UTF8<char>, rapidjson::MemoryPoolAllocator<rapidjson::CrtAllocator> >&, char const*, CSObject const*)`
+- `CSJSONWriter::endArray()`
+- `CSJSONWriter::endObject()`
+- `CSJSONWriter::startArray()`
+- `CSJSONWriter::startArray(char const*)`
+- `CSJSONWriter::startObject()`
+- `CSJSONWriter::startObject(char const*)`
+- `CSJSONWriter::toString() const`
+- `CSJSONWriter::writeArray(CSJSONArray const*)`
+- `CSJSONWriter::writeArray(char const*, CSJSONArray const*)`
+- `CSJSONWriter::writeBool(bool)`
+- `CSJSONWriter::writeBool(char const*, bool)`
+- `CSJSONWriter::writeDouble(char const*, double)`
+- `CSJSONWriter::writeDouble(double)`
+- `CSJSONWriter::writeNumber(char const*, long)`
+- `CSJSONWriter::writeNumber(long)`
+- `CSJSONWriter::writeObject(CSJSONObject const*)`
+- `CSJSONWriter::writeObject(char const*, CSJSONObject const*)`
+- `CSJSONWriter::writeString(char const*)`
+- `CSJSONWriter::writeString(char const*, char const*)`
+- `CSJSONWriter::~CSJSONWriter()`
+
+## GameResultRecord (10)
+
+- `GameResultRecord::GameResultRecord()`
+- `GameResultRecord::GameResultRecord(CSBuffer*)`
+- `GameResultRecord::createWithBuffer(CSBuffer*)`
+- `GameResultRecord::writeTo(CSBuffer*) const`
+- `GameResultRecord::writeTo(CSJSONWriter*) const`
+- `GameResultRecord::~GameResultRecord()`
+
+## LobbyGateway (318)
+
+- `LobbyGateway::LobbyGateway()`
+- `LobbyGateway::MethodGet`
+- `LobbyGateway::MethodPatch`
+- `LobbyGateway::MethodPost`
+- `LobbyGateway::Payload::Payload(void (LobbyGateway::*)(CSJSONObject const*), CSURLRequest const*, bool, bool, bool, LobbyOp)`
+- `LobbyGateway::Payload::~Payload()`
+- `LobbyGateway::SchemeHttp`
+- `LobbyGateway::SchemeHttps`
+- `LobbyGateway::__gateway`
+- `LobbyGateway::addDelegate(LobbyGatewayDelegate*)`
+- `LobbyGateway::commitAchievementAttain()`
+- `LobbyGateway::commitLevelQuestAttain()`
+- `LobbyGateway::commitMinigameQuestAttain()`
+- `LobbyGateway::commitQuestAttain()`
+- `LobbyGateway::destroy()`
+- `LobbyGateway::load()`
+- `LobbyGateway::onIAPCancelled()`
+- `LobbyGateway::onIAPComplete(char const*, char const*, char const*, char const*)`
+- `LobbyGateway::onIAPConnected()`
+- `LobbyGateway::onIAPError(int)`
+- `LobbyGateway::onIAPSync()`
+- `LobbyGateway::onIAPSyncProduct(char const*, char const*, char const*, char const*)`
+- `LobbyGateway::pushAchievementAttain(AttainCode, unsigned int, unsigned int, unsigned int, bool)`
+- `LobbyGateway::pushLevelQuestAttain(AttainCode, unsigned int, unsigned int, unsigned int, bool)`
+- `LobbyGateway::pushMinigameQuestAttain(AttainCode, unsigned int, unsigned int, unsigned int, bool)`
+- `LobbyGateway::pushQuestAttain(AttainCode, unsigned int, unsigned int, unsigned int, bool)`
+- `LobbyGateway::receiveAchievementAttain(CSJSONObject const*)`
+- `LobbyGateway::receiveAchievementReward(CSJSONObject const*)`
+- `LobbyGateway::receiveAdDailyReward(CSJSONObject const*)`
+- `LobbyGateway::receiveAdGameReward(CSJSONObject const*)`
+- `LobbyGateway::receiveAdRefresh(CSJSONObject const*)`
+- `LobbyGateway::receiveAdmission(CSJSONObject const*)`
+- `LobbyGateway::receiveArenaEnd(CSJSONObject const*)`
+- `LobbyGateway::receiveArenaPick(CSJSONObject const*)`
+- `LobbyGateway::receiveArenaReward(CSJSONObject const*)`
+- `LobbyGateway::receiveArenaRunes(CSJSONObject const*)`
+- `LobbyGateway::receiveArenaStart(CSJSONObject const*)`
+- `LobbyGateway::receiveBanners(CSJSONObject const*)`
+- `LobbyGateway::receiveBuyCard(CSJSONObject const*)`
+- `LobbyGateway::receiveBuyCardOpen(CSJSONObject const*)`
+- `LobbyGateway::receiveBuyCardReset(CSJSONObject const*)`
+- `LobbyGateway::receiveBuyDeckPage(CSJSONObject const*)`
+- `LobbyGateway::receiveBuyProduct(CSJSONObject const*)`
+- `LobbyGateway::receiveBuyProductCharge(CSJSONObject const*)`
+- `LobbyGateway::receiveBuyProductValidate(CSJSONObject const*)`
+- `LobbyGateway::receiveCampaignStep(CSJSONObject const*)`
+- `LobbyGateway::receiveCardConfirm(CSJSONObject const*)`
+- `LobbyGateway::receiveCardEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveCardEquipAll(CSJSONObject const*)`
+- `LobbyGateway::receiveCardMake(CSJSONObject const*)`
+- `LobbyGateway::receiveCardShop(CSJSONObject const*)`
+- `LobbyGateway::receiveCardUpgrade(CSJSONObject const*)`
+- `LobbyGateway::receiveChallengeBonusGold(CSJSONObject const*)`
+- `LobbyGateway::receiveChallengeLimitOpen(CSJSONObject const*)`
+- `LobbyGateway::receiveChallengeReset(CSJSONObject const*)`
+- `LobbyGateway::receiveChallengeReward(CSJSONObject const*)`
+- `LobbyGateway::receiveChangeCountry(CSJSONObject const*)`
+- `LobbyGateway::receiveChangeDescription(CSJSONObject const*)`
+- `LobbyGateway::receiveChangeName(CSJSONObject const*)`
+- `LobbyGateway::receiveChangePicture(CSJSONObject const*)`
+- `LobbyGateway::receiveCheatLog(CSJSONObject const*)`
+- `LobbyGateway::receiveClanAccept(CSJSONObject const*)`
+- `LobbyGateway::receiveClanAppoint(CSJSONObject const*)`
+- `LobbyGateway::receiveClanArenaCardEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveClanArenaReward(CSJSONObject const*)`
+- `LobbyGateway::receiveClanArenaRuneEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveClanArenaRuneEquipAll(CSJSONObject const*)`
+- `LobbyGateway::receiveClanArenaValidate(CSJSONObject const*)`
+- `LobbyGateway::receiveClanChangeNotice(CSJSONObject const*)`
+- `LobbyGateway::receiveClanCreate(CSJSONObject const*)`
+- `LobbyGateway::receiveClanDeckShare(CSJSONObject const*)`
+- `LobbyGateway::receiveClanDecorationEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveClanDeny(CSJSONObject const*)`
+- `LobbyGateway::receiveClanDenyAll(CSJSONObject const*)`
+- `LobbyGateway::receiveClanDonate(CSJSONObject const*)`
+- `LobbyGateway::receiveClanDonateRegister(CSJSONObject const*)`
+- `LobbyGateway::receiveClanDonateUnregister(CSJSONObject const*)`
+- `LobbyGateway::receiveClanExpulse(CSJSONObject const*)`
+- `LobbyGateway::receiveClanJoin(CSJSONObject const*)`
+- `LobbyGateway::receiveClanLeave(CSJSONObject const*)`
+- `LobbyGateway::receiveClanModify(CSJSONObject const*)`
+- `LobbyGateway::receiveClanProfile(CSJSONObject const*)`
+- `LobbyGateway::receiveClanRankingList(CSJSONObject const*)`
+- `LobbyGateway::receiveClanRecommend(CSJSONObject const*)`
+- `LobbyGateway::receiveClanRefresh(CSJSONObject const*)`
+- `LobbyGateway::receiveClanReplayShare(CSJSONObject const*)`
+- `LobbyGateway::receiveClanSearch(CSJSONObject const*)`
+- `LobbyGateway::receiveClanTrade(CSJSONObject const*)`
+- `LobbyGateway::receiveClanTradeRegister(CSJSONObject const*)`
+- `LobbyGateway::receiveClanTradeUnregister(CSJSONObject const*)`
+- `LobbyGateway::receiveCoupon(CSJSONObject const*)`
+- `LobbyGateway::receiveDeckChangeName(CSJSONObject const*)`
+- `LobbyGateway::receiveDeckPage(CSJSONObject const*)`
+- `LobbyGateway::receiveDecorationEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveDispose(CSJSONObject const*)`
+- `LobbyGateway::receiveEmoticonConfirm(CSJSONObject const*)`
+- `LobbyGateway::receiveEmoticonEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveFriendConfirm(CSJSONObject const*)`
+- `LobbyGateway::receiveFriendRecommend(CSJSONObject const*)`
+- `LobbyGateway::receiveGameModeReset(CSJSONObject const*)`
+- `LobbyGateway::receiveGamePrevResult(CSJSONObject const*)`
+- `LobbyGateway::receiveGameResult(CSJSONObject const*)`
+- `LobbyGateway::receiveGameRewardReset(CSJSONObject const*)`
+- `LobbyGateway::receiveInvitation(CSJSONObject const*)`
+- `LobbyGateway::receiveInvitationInput(CSJSONObject const*)`
+- `LobbyGateway::receiveInvitationReward(CSJSONObject const*)`
+- `LobbyGateway::receiveLanguage(CSJSONObject const*)`
+- `LobbyGateway::receiveLevelQuestAttain(CSJSONObject const*)`
+- `LobbyGateway::receiveLevelQuestReward(CSJSONObject const*)`
+- `LobbyGateway::receiveLogin(CSJSONObject const*)`
+- `LobbyGateway::receiveMailConfirm(CSJSONObject const*)`
+- `LobbyGateway::receiveMailList(CSJSONObject const*)`
+- `LobbyGateway::receiveMailOpen(CSJSONObject const*)`
+- `LobbyGateway::receiveMailOpenAll(CSJSONObject const*)`
+- `LobbyGateway::receiveMailSend(CSJSONObject const*)`
+- `LobbyGateway::receiveMasteryReward(CSJSONObject const*)`
+- `LobbyGateway::receiveMatchRecordList(CSJSONObject const*)`
+- `LobbyGateway::receiveMatchRecordLock(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameAttendance(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameAttendanceContinuousReward(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameAttendanceReward(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameBoard(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameBoardPlay(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameQuest(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameQuestAttain(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameQuestPointReward(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameQuestReward(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameRoulette(CSJSONObject const*)`
+- `LobbyGateway::receiveMinigameRoulettePlay(CSJSONObject const*)`
+- `LobbyGateway::receiveMyClanProfile(CSJSONObject const*)`
+- `LobbyGateway::receiveMyProfile(CSJSONObject const*)`
+- `LobbyGateway::receivePVPServer(CSJSONObject const*)`
+- `LobbyGateway::receivePacket(CSData*, int, LobbyGateway::Payload*)`
+- `LobbyGateway::receivePatch(CSData const*)`
+- `LobbyGateway::receivePatchProgress(unsigned int)`
+- `LobbyGateway::receivePing(CSJSONObject const*)`
+- `LobbyGateway::receiveProfile(CSJSONObject const*)`
+- `LobbyGateway::receiveProfileStat(CSJSONObject const*)`
+- `LobbyGateway::receiveQuestAttain(CSJSONObject const*)`
+- `LobbyGateway::receiveQuestPointReward(CSJSONObject const*)`
+- `LobbyGateway::receiveQuestReward(CSJSONObject const*)`
+- `LobbyGateway::receiveQuestStatus(CSJSONObject const*)`
+- `LobbyGateway::receiveRefresh(CSJSONObject const*, LobbyOp)`
+- `LobbyGateway::receiveReload(CSJSONObject const*)`
+- `LobbyGateway::receiveReplayDownload(CSData*, int, long)`
+- `LobbyGateway::receiveReplayUpload(CSJSONObject const*)`
+- `LobbyGateway::receiveRewardResult(CSJSONObject const*, char const*)`
+- `LobbyGateway::receiveRuneConfirm(CSJSONObject const*)`
+- `LobbyGateway::receiveRuneEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveRuneEquipAll(CSJSONObject const*)`
+- `LobbyGateway::receiveRuneUpgrade(CSJSONObject const*)`
+- `LobbyGateway::receiveScoreReward(CSJSONObject const*)`
+- `LobbyGateway::receiveSeasonResult(CSJSONObject const*)`
+- `LobbyGateway::receiveShop(CSJSONObject const*)`
+- `LobbyGateway::receiveSkinEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveSocialLink(CSJSONObject const*)`
+- `LobbyGateway::receiveSocialLinkValidate(CSJSONObject const*)`
+- `LobbyGateway::receiveSubscriptionReset(CSJSONObject const*)`
+- `LobbyGateway::receiveTVLiveList(CSJSONObject const*)`
+- `LobbyGateway::receiveTVReplayList(CSJSONObject const*)`
+- `LobbyGateway::receiveTVReplayUploadVerify(CSJSONObject const*)`
+- `LobbyGateway::receiveThemeEquip(CSJSONObject const*)`
+- `LobbyGateway::receiveTutorialStep(CSJSONObject const*)`
+- `LobbyGateway::receiveUserRankingList(CSJSONObject const*)`
+- `LobbyGateway::removeDelegate(LobbyGatewayDelegate*)`
+- `LobbyGateway::requestAchievementReward(AssetIndex2 const&)`
+- `LobbyGateway::requestAdAnalysis(char const*, AdInflow)`
+- `LobbyGateway::requestAdDailyReward()`
+- `LobbyGateway::requestAdGameReward(long)`
+- `LobbyGateway::requestAdRefresh()`
+- `LobbyGateway::requestAdmission()`
+- `LobbyGateway::requestArenaEnd()`
+- `LobbyGateway::requestArenaPick(AssetIndex2 const&)`
+- `LobbyGateway::requestArenaReward()`
+- `LobbyGateway::requestArenaRunes()`
+- `LobbyGateway::requestArenaStart(bool)`
+- `LobbyGateway::requestAttain(AttainCode, unsigned int, unsigned int, unsigned int, bool)`
+- `LobbyGateway::requestBanners()`
+- `LobbyGateway::requestBuyCard(int, AssetIndex2 const&, int)`
+- `LobbyGateway::requestBuyCardOpen(AssetIndex2 const&)`
+- `LobbyGateway::requestBuyCardReset(bool)`
+- `LobbyGateway::requestBuyDeckPage()`
+- `LobbyGateway::requestBuyProduct(ProductCategory, AssetIndex2 const&, bool)`
+- `LobbyGateway::requestBuyProductCharge(long, ProductCategory, AssetIndex2 const&, char const*, char const*, char const*)`
+- `LobbyGateway::requestCampaignStep(int)`
+- `LobbyGateway::requestCardConfirm(AssetIndex2 const&)`
+- `LobbyGateway::requestCardEquip(int, int, AssetIndex2 const&)`
+- `LobbyGateway::requestCardEquipAll(int, AssetIndex2 const*)`
+- `LobbyGateway::requestCardMake(AssetIndex2 const&, int)`
+- `LobbyGateway::requestCardShop()`
+- `LobbyGateway::requestCardUpgrade(AssetIndex2 const&)`
+- `LobbyGateway::requestChallengeBonusGold(AssetIndex2 const&)`
+- `LobbyGateway::requestChallengeLimitOpen(AssetIndex2 const&)`
+- `LobbyGateway::requestChallengeReset()`
+- `LobbyGateway::requestChallengeReward(AssetIndex2 const&, bool, int)`
+- `LobbyGateway::requestChangeCountry(int)`
+- `LobbyGateway::requestChangeDescription(char const*)`
+- `LobbyGateway::requestChangeName(char const*)`
+- `LobbyGateway::requestChangePicture(char const*)`
+- `LobbyGateway::requestCheatLog(CheatAction)`
+- `LobbyGateway::requestClanAccept(long, long)`
+- `LobbyGateway::requestClanAppoint(long, ClanMemberAuth)`
+- `LobbyGateway::requestClanArenaCardEquip(int, AssetIndex2 const&)`
+- `LobbyGateway::requestClanArenaReward()`
+- `LobbyGateway::requestClanArenaRuneEquip(int, int, AssetIndex2 const&)`
+- `LobbyGateway::requestClanArenaRuneEquipAll(AssetIndex2 const (*) [4])`
+- `LobbyGateway::requestClanArenaValidate()`
+- `LobbyGateway::requestClanChangeNotice(char const*)`
+- `LobbyGateway::requestClanCreate(AssetIndex2 const*, char const*, char const*, int, unsigned int, ClanOpenType)`
+- `LobbyGateway::requestClanDeckShare(int, char const*)`
+- `LobbyGateway::requestClanDecorationEquip(ClanDecorationType, AssetIndex2 const&)`
+- `LobbyGateway::requestClanDeny(long, long)`
+- `LobbyGateway::requestClanDenyAll()`
+- `LobbyGateway::requestClanDonate(long, bool)`
+- `LobbyGateway::requestClanDonateRegister(AssetIndex2 const&)`
+- `LobbyGateway::requestClanDonateUnregister(long)`
+- `LobbyGateway::requestClanExpulse(long)`
+- `LobbyGateway::requestClanJoin(long)`
+- `LobbyGateway::requestClanLeave()`
+- `LobbyGateway::requestClanModify(char const*, char const*, int, unsigned int, ClanOpenType)`
+- `LobbyGateway::requestClanProfile(long)`
+- `LobbyGateway::requestClanRankingList(ClanRankingType, bool)`
+- `LobbyGateway::requestClanRecommend(bool)`
+- `LobbyGateway::requestClanRefresh()`
+- `LobbyGateway::requestClanReplayShare(long, char const*)`
+- `LobbyGateway::requestClanSearch(char const*, LobbyGateway::ClanKeywordType, int, int, int, bool)`
+- `LobbyGateway::requestClanTrade(long, AssetIndex2 const&)`
+- `LobbyGateway::requestClanTradeRegister(AssetIndex2 const&, CSArray<AssetIndex2, 1, true> const*)`
+- `LobbyGateway::requestClanTradeUnregister(long)`
+- `LobbyGateway::requestClearSession()`
+- `LobbyGateway::requestCoupon(char const*)`
+- `LobbyGateway::requestDeckChangeName(int, char const*)`
+- `LobbyGateway::requestDeckMode(DeckMode)`
+- `LobbyGateway::requestDeckPage(int)`
+- `LobbyGateway::requestDecorationEquip(UserDecorationType, AssetIndex2 const&)`
+- `LobbyGateway::requestDispose()`
+- `LobbyGateway::requestEmoticonConfirm(AssetIndex2 const&)`
+- `LobbyGateway::requestEmoticonEquip(AssetIndex2 const*)`
+- `LobbyGateway::requestFriendConfirm(FriendConfirmOp)`
+- `LobbyGateway::requestFriendRecommend()`
+- `LobbyGateway::requestGameModeReset()`
+- `LobbyGateway::requestGamePrevResult(bool)`
+- `LobbyGateway::requestGameResult()`
+- `LobbyGateway::requestGameResultAttain(GameResultRecord const*)`
+- `LobbyGateway::requestGameRewardReset()`
+- `LobbyGateway::requestIAPConnect()`
+- `LobbyGateway::requestIAPSync(long)`
+- `LobbyGateway::requestInvitation()`
+- `LobbyGateway::requestInvitationInput(long)`
+- `LobbyGateway::requestInvitationReward(int)`
+- `LobbyGateway::requestLanguage()`
+- `LobbyGateway::requestLevelQuestReward(int)`
+- `LobbyGateway::requestLogin()`
+- `LobbyGateway::requestLoginAttain()`
+- `LobbyGateway::requestLogout()`
+- `LobbyGateway::requestMailConfirm(long)`
+- `LobbyGateway::requestMailList()`
+- `LobbyGateway::requestMailOpen(long)`
+- `LobbyGateway::requestMailOpenAll()`
+- `LobbyGateway::requestMailSend(long, char const*, char const*)`
+- `LobbyGateway::requestMarketAttain(AttainCode, unsigned int, unsigned int, unsigned int, bool)`
+- `LobbyGateway::requestMasteryReward(AssetIndex2 const&)`
+- `LobbyGateway::requestMatchRecordList(long)`
+- `LobbyGateway::requestMatchRecordLock(long, bool)`
+- `LobbyGateway::requestMinigameAttendance()`
+- `LobbyGateway::requestMinigameAttendanceContinuousReward(int, int)`
+- `LobbyGateway::requestMinigameAttendanceReward(int)`
+- `LobbyGateway::requestMinigameBoard()`
+- `LobbyGateway::requestMinigameBoardPlay(bool)`
+- `LobbyGateway::requestMinigameQuest()`
+- `LobbyGateway::requestMinigameQuestPointReward(int, int)`
+- `LobbyGateway::requestMinigameQuestReward(AssetIndex2 const&)`
+- `LobbyGateway::requestMinigameRoulette()`
+- `LobbyGateway::requestMinigameRoulettePlay(int)`
+- `LobbyGateway::requestPVPServer()`
+- `LobbyGateway::requestPatch(char const*)`
+- `LobbyGateway::requestPing()`
+- `LobbyGateway::requestProfile(long)`
+- `LobbyGateway::requestProfileStat(long)`
+- `LobbyGateway::requestPushToken()`
+- `LobbyGateway::requestQuestPointReward(LobbyGateway::QuestPointRewardType)`
+- `LobbyGateway::requestQuestReward(AssetIndex2 const&)`
+- `LobbyGateway::requestQuestStatus()`
+- `LobbyGateway::requestRefresh(void (LobbyGateway::*)(CSJSONObject const*), LobbyOp)`
+- `LobbyGateway::requestReload()`
+- `LobbyGateway::requestReplayDownload(long, char const*)`
+- `LobbyGateway::requestReplayUpload(long)`
+- `LobbyGateway::requestRuneConfirm(AssetIndex2 const&)`
+- `LobbyGateway::requestRuneEquip(int, int, int, AssetIndex2 const&)`
+- `LobbyGateway::requestRuneEquipAll(int, AssetIndex2 const (*) [4])`
+- `LobbyGateway::requestRuneUpgrade(AssetIndex2 const&)`
+- `LobbyGateway::requestScoreReward()`
+- `LobbyGateway::requestSeasonResult()`
+- `LobbyGateway::requestShop(bool)`
+- `LobbyGateway::requestSkinEquip(AssetIndex3 const&)`
+- `LobbyGateway::requestSocialLink(SocialPlatform, char const*)`
+- `LobbyGateway::requestSocialLinkValidate(SocialPlatform, char const*)`
+- `LobbyGateway::requestSubscriptionReset()`
+- `LobbyGateway::requestTVLiveList(bool)`
+- `LobbyGateway::requestTVReplayList(int)`
+- `LobbyGateway::requestTVReplayUploadVerify(long, int)`
+- `LobbyGateway::requestThemeEquip(AssetIndex2 const&)`
+- `LobbyGateway::requestTutorialStep(TutorialCategory, int, bool)`
+- `LobbyGateway::requestUserRankingList(UserRecordType, bool, int)`
+- `LobbyGateway::requestValidateAttain()`
+- `LobbyGateway::resetUsingHttps()`
+- `LobbyGateway::sendPacket(char const*, char const*, char const*, char const*, bool, bool, bool, LobbyOp, void (LobbyGateway::*)(CSJSONObject const*))`
+- `LobbyGateway::update()`
+- `LobbyGateway::updateStart(bool)`
+- `LobbyGateway::updateStop()`
+- `LobbyGateway::validateAchievementAttain()`
+- `LobbyGateway::validateLevelQuestAttain()`
+- `LobbyGateway::validateMinigameQuestAttain()`
+- `LobbyGateway::~LobbyGateway()`
+
+## LobbyGatewayDelegate (156)
+
+- `LobbyGatewayDelegate::onLobbyAchievementAttain(Achievement const*)`
+- `LobbyGatewayDelegate::onLobbyAchievementReward(Achievement const*, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyAdDailyReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyAdGameReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyAdRefresh()`
+- `LobbyGatewayDelegate::onLobbyAdmission()`
+- `LobbyGatewayDelegate::onLobbyAdmissionBlock(CSArray<Notice, 1, true> const*)`
+- `LobbyGatewayDelegate::onLobbyAdmissionInvalidSession()`
+- `LobbyGatewayDelegate::onLobbyAdmissionUpdateVersion(CSString const*)`
+- `LobbyGatewayDelegate::onLobbyArenaEnd()`
+- `LobbyGatewayDelegate::onLobbyArenaPick(Card const*)`
+- `LobbyGatewayDelegate::onLobbyArenaReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyArenaRunes()`
+- `LobbyGatewayDelegate::onLobbyArenaStart()`
+- `LobbyGatewayDelegate::onLobbyBanners()`
+- `LobbyGatewayDelegate::onLobbyBuyCard(int, AssetIndex2 const&, int, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyBuyCardOpen(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyBuyCardReset()`
+- `LobbyGatewayDelegate::onLobbyBuyDeckPage(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyBuyProduct(AssetIndex2 const&, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyBuyProductCancelled()`
+- `LobbyGatewayDelegate::onLobbyBuyProductFail()`
+- `LobbyGatewayDelegate::onLobbyCampaignStep()`
+- `LobbyGatewayDelegate::onLobbyCardConfirm(CardAccount const*)`
+- `LobbyGatewayDelegate::onLobbyCardEquip(int, int)`
+- `LobbyGatewayDelegate::onLobbyCardEquipAll(int)`
+- `LobbyGatewayDelegate::onLobbyCardMake(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyCardShop()`
+- `LobbyGatewayDelegate::onLobbyCardUpgrade(CardAccount const*, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyChallengeBonusGold(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyChallengeLimitOpen()`
+- `LobbyGatewayDelegate::onLobbyChallengeReset()`
+- `LobbyGatewayDelegate::onLobbyChallengeReward(Challenge const*, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyChangeCountry()`
+- `LobbyGatewayDelegate::onLobbyChangeDescription()`
+- `LobbyGatewayDelegate::onLobbyChangeName()`
+- `LobbyGatewayDelegate::onLobbyChangeNameAlreadyExists()`
+- `LobbyGatewayDelegate::onLobbyChangeNameRestricted()`
+- `LobbyGatewayDelegate::onLobbyChangePicture()`
+- `LobbyGatewayDelegate::onLobbyCheatLog(CheatAction)`
+- `LobbyGatewayDelegate::onLobbyClanAccept()`
+- `LobbyGatewayDelegate::onLobbyClanAppoint()`
+- `LobbyGatewayDelegate::onLobbyClanArenaCardEquip(int)`
+- `LobbyGatewayDelegate::onLobbyClanArenaReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyClanArenaRuneEquip(int, int)`
+- `LobbyGatewayDelegate::onLobbyClanArenaRuneEquipAll()`
+- `LobbyGatewayDelegate::onLobbyClanArenaValidate()`
+- `LobbyGatewayDelegate::onLobbyClanChange()`
+- `LobbyGatewayDelegate::onLobbyClanChangeNotice()`
+- `LobbyGatewayDelegate::onLobbyClanCreate()`
+- `LobbyGatewayDelegate::onLobbyClanDeckShare(bool)`
+- `LobbyGatewayDelegate::onLobbyClanDecorationEquip()`
+- `LobbyGatewayDelegate::onLobbyClanDeny()`
+- `LobbyGatewayDelegate::onLobbyClanDenyAll()`
+- `LobbyGatewayDelegate::onLobbyClanDonate(bool, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyClanDonateRecord(CSArray<ClanDonater, 1, true> const*)`
+- `LobbyGatewayDelegate::onLobbyClanDonateRegister()`
+- `LobbyGatewayDelegate::onLobbyClanDonateUnregister()`
+- `LobbyGatewayDelegate::onLobbyClanExpulse()`
+- `LobbyGatewayDelegate::onLobbyClanJoin(bool)`
+- `LobbyGatewayDelegate::onLobbyClanLeave()`
+- `LobbyGatewayDelegate::onLobbyClanModify()`
+- `LobbyGatewayDelegate::onLobbyClanPostExpire(ClanPost const*)`
+- `LobbyGatewayDelegate::onLobbyClanProfile(ClanProfile const*)`
+- `LobbyGatewayDelegate::onLobbyClanRankingList(ClanRankingType)`
+- `LobbyGatewayDelegate::onLobbyClanRecommend()`
+- `LobbyGatewayDelegate::onLobbyClanRefresh()`
+- `LobbyGatewayDelegate::onLobbyClanReplayShare(bool)`
+- `LobbyGatewayDelegate::onLobbyClanSearch(CSArray<Clan, 1, true> const*)`
+- `LobbyGatewayDelegate::onLobbyClanTrade(bool, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyClanTradeRecord(UserThumb const*, ClanTradeCard const*, ClanTradeCard const*)`
+- `LobbyGatewayDelegate::onLobbyClanTradeRegister()`
+- `LobbyGatewayDelegate::onLobbyClanTradeUnregister()`
+- `LobbyGatewayDelegate::onLobbyCoupon(bool)`
+- `LobbyGatewayDelegate::onLobbyDeckChangeName(int)`
+- `LobbyGatewayDelegate::onLobbyDeckPage()`
+- `LobbyGatewayDelegate::onLobbyDecorationEquip()`
+- `LobbyGatewayDelegate::onLobbyDispose(bool)`
+- `LobbyGatewayDelegate::onLobbyEmoticonConfirm(Emoticon const*)`
+- `LobbyGatewayDelegate::onLobbyEmoticonEquip()`
+- `LobbyGatewayDelegate::onLobbyError(LobbyOp, LobbyErrorAction, int, CSString const*)`
+- `LobbyGatewayDelegate::onLobbyFriendConfirm(FriendConfirmOp)`
+- `LobbyGatewayDelegate::onLobbyFriendRecommend()`
+- `LobbyGatewayDelegate::onLobbyGameModeReset()`
+- `LobbyGatewayDelegate::onLobbyGamePrevResult(bool, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyGameResult(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyGameRewardReset()`
+- `LobbyGatewayDelegate::onLobbyIAPConnected()`
+- `LobbyGatewayDelegate::onLobbyIAPError(bool, int)`
+- `LobbyGatewayDelegate::onLobbyIAPSync()`
+- `LobbyGatewayDelegate::onLobbyInvitation()`
+- `LobbyGatewayDelegate::onLobbyInvitationInput(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyInvitationReward(int, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyLanguage()`
+- `LobbyGatewayDelegate::onLobbyLevelQuestAttain(LevelQuest const*)`
+- `LobbyGatewayDelegate::onLobbyLevelQuestReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyLogin(bool)`
+- `LobbyGatewayDelegate::onLobbyLoginBlock(CSString const*)`
+- `LobbyGatewayDelegate::onLobbyLoginMessage(CSString const*)`
+- `LobbyGatewayDelegate::onLobbyMailConfirm(Mail const*)`
+- `LobbyGatewayDelegate::onLobbyMailExpire(Mail const*)`
+- `LobbyGatewayDelegate::onLobbyMailList()`
+- `LobbyGatewayDelegate::onLobbyMailOpen(Mail const*, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMailOpenAll(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMailSend(bool)`
+- `LobbyGatewayDelegate::onLobbyMasteryReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMatchRecordList(long, CSArray<UserMatchRecord, 1, true> const*)`
+- `LobbyGatewayDelegate::onLobbyMatchRecordLock(UserMatchRecord const*, bool)`
+- `LobbyGatewayDelegate::onLobbyMessageMD5(CSString const*)`
+- `LobbyGatewayDelegate::onLobbyMessagePrice(int)`
+- `LobbyGatewayDelegate::onLobbyMinigameAttendance()`
+- `LobbyGatewayDelegate::onLobbyMinigameAttendanceContinuousReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMinigameAttendanceReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMinigameBoard()`
+- `LobbyGatewayDelegate::onLobbyMinigameBoardPlay(int, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMinigameQuest()`
+- `LobbyGatewayDelegate::onLobbyMinigameQuestAttain(MinigameQuestElement const*)`
+- `LobbyGatewayDelegate::onLobbyMinigameQuestPointReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMinigameQuestReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyMinigameRoulette()`
+- `LobbyGatewayDelegate::onLobbyMinigameRoulettePlay(RewardSet const*, int)`
+- `LobbyGatewayDelegate::onLobbyMinigameRouletteReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyNoticeExpire(Notice const*)`
+- `LobbyGatewayDelegate::onLobbyPVPServer(PVPAddress const*)`
+- `LobbyGatewayDelegate::onLobbyPatch(CSData const*)`
+- `LobbyGatewayDelegate::onLobbyPatchProgress(unsigned int)`
+- `LobbyGatewayDelegate::onLobbyProfile(Profile const*)`
+- `LobbyGatewayDelegate::onLobbyProfileStat(long, ProfileStat const*)`
+- `LobbyGatewayDelegate::onLobbyQuestAttain(Quest const*)`
+- `LobbyGatewayDelegate::onLobbyQuestPointReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyQuestReward(Quest const*, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyQuestStatus()`
+- `LobbyGatewayDelegate::onLobbyReconnect()`
+- `LobbyGatewayDelegate::onLobbyReload()`
+- `LobbyGatewayDelegate::onLobbyReplayDownload(long)`
+- `LobbyGatewayDelegate::onLobbyReplayUpload(long)`
+- `LobbyGatewayDelegate::onLobbyRuneConfirm(RuneAccount const*)`
+- `LobbyGatewayDelegate::onLobbyRuneEquip(int, int, int)`
+- `LobbyGatewayDelegate::onLobbyRuneEquipAll(int)`
+- `LobbyGatewayDelegate::onLobbyRuneUpgrade(RuneAccount const*, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyScoreReward(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbySeasonResult(RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyShop()`
+- `LobbyGatewayDelegate::onLobbySkinEquip(CardAccount const*)`
+- `LobbyGatewayDelegate::onLobbySocialLink()`
+- `LobbyGatewayDelegate::onLobbySocialLinkValidate(User const*)`
+- `LobbyGatewayDelegate::onLobbySubscriptionReset()`
+- `LobbyGatewayDelegate::onLobbySubscriptionResetDecorations()`
+- `LobbyGatewayDelegate::onLobbySubscriptionResetThemes()`
+- `LobbyGatewayDelegate::onLobbyTVLiveList()`
+- `LobbyGatewayDelegate::onLobbyTVReplayList(int)`
+- `LobbyGatewayDelegate::onLobbyTVReplayUploadVerify(long, bool)`
+- `LobbyGatewayDelegate::onLobbyThemeEquip()`
+- `LobbyGatewayDelegate::onLobbyTutorialFeatureOpen(TutorialFeature)`
+- `LobbyGatewayDelegate::onLobbyTutorialState(TutorialCategory, bool, RewardSet const*)`
+- `LobbyGatewayDelegate::onLobbyUserRankingList(UserRecordType)`
+
+## PVPAddress (14)
+
+- `PVPAddress::PVPAddress(CSBuffer*)`
+- `PVPAddress::PVPAddress(CSJSONObject const*)`
+- `PVPAddress::PVPAddress(CSString const*, int)`
+- `PVPAddress::address(CSString const*, int)`
+- `PVPAddress::addressWithBuffer(CSBuffer*)`
+- `PVPAddress::addressWithJSON(CSJSONObject const*)`
+- `PVPAddress::isEqual(CSObject const*) const`
+- `PVPAddress::writeTo(CSBuffer*) const`
+- `PVPAddress::~PVPAddress()`
+
+## PVPGateway (130)
+
+- `PVPGateway::PVPGateway()`
+- `PVPGateway::__gateway`
+- `PVPGateway::addDelegate(PVPGatewayDelegate*)`
+- `PVPGateway::beginSendPacket()`
+- `PVPGateway::connect()`
+- `PVPGateway::destroy()`
+- `PVPGateway::endSendPacket()`
+- `PVPGateway::load()`
+- `PVPGateway::onLobbyError(LobbyOp, LobbyErrorAction, int, CSString const*)`
+- `PVPGateway::onLobbyPVPServer(PVPAddress const*)`
+- `PVPGateway::receiveChannelBlock()`
+- `PVPGateway::receiveChannelChat()`
+- `PVPGateway::receiveChannelEnter()`
+- `PVPGateway::receiveChannelExit()`
+- `PVPGateway::receiveChatFail()`
+- `PVPGateway::receiveClanChat()`
+- `PVPGateway::receiveClanChatHistory()`
+- `PVPGateway::receiveClanMemberStates()`
+- `PVPGateway::receiveClanNotification()`
+- `PVPGateway::receiveFriendAccept()`
+- `PVPGateway::receiveFriendDeny()`
+- `PVPGateway::receiveFriendRemove()`
+- `PVPGateway::receiveFriendRequest()`
+- `PVPGateway::receiveLogin()`
+- `PVPGateway::receiveMatchChat()`
+- `PVPGateway::receiveMatchCommand()`
+- `PVPGateway::receiveMatchCreate()`
+- `PVPGateway::receiveMatchEnter()`
+- `PVPGateway::receiveMatchExit()`
+- `PVPGateway::receiveMatchExpire()`
+- `PVPGateway::receiveMatchInvite()`
+- `PVPGateway::receiveMatchLevelCorrection()`
+- `PVPGateway::receiveMatchObserverDelay()`
+- `PVPGateway::receiveMatchPause()`
+- `PVPGateway::receiveMatchPredict()`
+- `PVPGateway::receiveMatchQuit()`
+- `PVPGateway::receiveMatchReady()`
+- `PVPGateway::receiveMatchRefuse()`
+- `PVPGateway::receiveMatchSlot()`
+- `PVPGateway::receiveMatchStart()`
+- `PVPGateway::receiveMatchSwap()`
+- `PVPGateway::receiveMatchSync()`
+- `PVPGateway::receiveMessage()`
+- `PVPGateway::receiveNoticeList()`
+- `PVPGateway::receivePacket()`
+- `PVPGateway::receivePartyBack()`
+- `PVPGateway::receivePartyChat()`
+- `PVPGateway::receivePartyCreate()`
+- `PVPGateway::receivePartyEnter()`
+- `PVPGateway::receivePartyExit()`
+- `PVPGateway::receivePartyExpire()`
+- `PVPGateway::receivePartyInvite()`
+- `PVPGateway::receivePartyMap()`
+- `PVPGateway::receivePartyMatch()`
+- `PVPGateway::receivePartyRedirect()`
+- `PVPGateway::receivePartyRefuse()`
+- `PVPGateway::receivePartySlot()`
+- `PVPGateway::receivePartyStart()`
+- `PVPGateway::receivePartySync()`
+- `PVPGateway::receiveShutdown()`
+- `PVPGateway::receiveSocketEvent(CSSocket*, CSSocketEvent)`
+- `PVPGateway::receiveUpdateProfile()`
+- `PVPGateway::receiveUpdateState()`
+- `PVPGateway::receiveUserChat()`
+- `PVPGateway::receiveUserState()`
+- `PVPGateway::removeDelegate(PVPGatewayDelegate*)`
+- `PVPGateway::requestArenaDeck()`
+- `PVPGateway::requestChannelChat(char const*)`
+- `PVPGateway::requestChannelEnter()`
+- `PVPGateway::requestChannelEnter(char const*, char const*)`
+- `PVPGateway::requestChannelExit()`
+- `PVPGateway::requestClanChat(char const*)`
+- `PVPGateway::requestClanChatConfirm()`
+- `PVPGateway::requestClanDeck()`
+- `PVPGateway::requestClanNotification(long, long, bool)`
+- `PVPGateway::requestConnect()`
+- `PVPGateway::requestFriendAccept(User const*)`
+- `PVPGateway::requestFriendDeny(long)`
+- `PVPGateway::requestFriendRemove(long)`
+- `PVPGateway::requestFriendRequest(UserThumb const*)`
+- `PVPGateway::requestLanguage()`
+- `PVPGateway::requestLogin(bool)`
+- `PVPGateway::requestMatchAuto(bool)`
+- `PVPGateway::requestMatchChat(char const*, bool)`
+- `PVPGateway::requestMatchCommand(void const*, unsigned int)`
+- `PVPGateway::requestMatchCreate(GameOnlineMode, GameLevelCorrection, int, int, int, MapThumb const*, char const*)`
+- `PVPGateway::requestMatchEnter(unsigned int, unsigned int, bool)`
+- `PVPGateway::requestMatchExit()`
+- `PVPGateway::requestMatchInvite(UserThumb const*)`
+- `PVPGateway::requestMatchLatency(int, int, float, unsigned int)`
+- `PVPGateway::requestMatchLevelCorrection(GameLevelCorrection)`
+- `PVPGateway::requestMatchObserverDelay(int)`
+- `PVPGateway::requestMatchPause(bool)`
+- `PVPGateway::requestMatchPredict(int)`
+- `PVPGateway::requestMatchQuit(long)`
+- `PVPGateway::requestMatchReady()`
+- `PVPGateway::requestMatchRefuse(long, bool)`
+- `PVPGateway::requestMatchResult(GameResult)`
+- `PVPGateway::requestMatchSlot(int, GameControl)`
+- `PVPGateway::requestMatchStart()`
+- `PVPGateway::requestMatchSwap(long, int)`
+- `PVPGateway::requestMatchSync()`
+- `PVPGateway::requestMessageCardObtain(AssetIndex2 const&)`
+- `PVPGateway::requestPartyBack()`
+- `PVPGateway::requestPartyChat(char const*)`
+- `PVPGateway::requestPartyCreate(GameOnlineMode, int, int, int, char const*, bool)`
+- `PVPGateway::requestPartyEnter(char const*)`
+- `PVPGateway::requestPartyExit()`
+- `PVPGateway::requestPartyInvite(UserThumb const*)`
+- `PVPGateway::requestPartyMap(AssetIndex4 const*)`
+- `PVPGateway::requestPartyRefuse(long, bool)`
+- `PVPGateway::requestPartySlot(int)`
+- `PVPGateway::requestPartyStart(bool)`
+- `PVPGateway::requestPartySync()`
+- `PVPGateway::requestPing()`
+- `PVPGateway::requestShutdown(bool)`
+- `PVPGateway::requestUpdateProfile(bool)`
+- `PVPGateway::requestUpdateState(UserState const*)`
+- `PVPGateway::requestUserBlock(long)`
+- `PVPGateway::requestUserChat(UserThumb const*, char const*)`
+- `PVPGateway::requestUserChatClose(long)`
+- `PVPGateway::requestUserChatConfirm(long)`
+- `PVPGateway::requestUserChatCreate(UserThumb const*)`
+- `PVPGateway::requestUserState(long)`
+- `PVPGateway::requestUserUnblock(long)`
+- `PVPGateway::setAddress(PVPAddress const*)`
+- `PVPGateway::~PVPGateway()`
+
+## PVPGatewayDelegate (72)
+
+- `PVPGatewayDelegate::onPVPChannelChat(Chat const*)`
+- `PVPGatewayDelegate::onPVPChannelEnter(bool)`
+- `PVPGatewayDelegate::onPVPChannelExit(bool)`
+- `PVPGatewayDelegate::onPVPChatFail(ChatFail, int)`
+- `PVPGatewayDelegate::onPVPClanChat(Chat const*)`
+- `PVPGatewayDelegate::onPVPClanChatHistory()`
+- `PVPGatewayDelegate::onPVPClanNotification()`
+- `PVPGatewayDelegate::onPVPConnect()`
+- `PVPGatewayDelegate::onPVPFriendAccept(User const*)`
+- `PVPGatewayDelegate::onPVPFriendAcceptFail(int, CSString const*)`
+- `PVPGatewayDelegate::onPVPFriendDeny(User const*)`
+- `PVPGatewayDelegate::onPVPFriendDenyFail(int, CSString const*)`
+- `PVPGatewayDelegate::onPVPFriendRemove(User const*)`
+- `PVPGatewayDelegate::onPVPFriendRemoveFail(int, CSString const*)`
+- `PVPGatewayDelegate::onPVPFriendRequest(UserThumb const*)`
+- `PVPGatewayDelegate::onPVPFriendRequestFail(int, CSString const*)`
+- `PVPGatewayDelegate::onPVPFriendRequestNotify(User const*)`
+- `PVPGatewayDelegate::onPVPLogin()`
+- `PVPGatewayDelegate::onPVPMatchBan()`
+- `PVPGatewayDelegate::onPVPMatchChangeHost()`
+- `PVPGatewayDelegate::onPVPMatchChat(Chat const*)`
+- `PVPGatewayDelegate::onPVPMatchCommand(int, unsigned int, float, void const*, unsigned int)`
+- `PVPGatewayDelegate::onPVPMatchCreate()`
+- `PVPGatewayDelegate::onPVPMatchEmoticon(UserThumb const*, AssetIndex2 const&)`
+- `PVPGatewayDelegate::onPVPMatchEnter()`
+- `PVPGatewayDelegate::onPVPMatchEnterFail()`
+- `PVPGatewayDelegate::onPVPMatchEnterObserverNotify(UserThumb const*)`
+- `PVPGatewayDelegate::onPVPMatchEnterPlayerNotify(Player const*)`
+- `PVPGatewayDelegate::onPVPMatchExit()`
+- `PVPGatewayDelegate::onPVPMatchExitObserverNotify(UserThumb const*)`
+- `PVPGatewayDelegate::onPVPMatchExitPlayerNotify(Player const*)`
+- `PVPGatewayDelegate::onPVPMatchExpire(PVPAddress const*, unsigned int)`
+- `PVPGatewayDelegate::onPVPMatchInvite(UserThumb const*, PVPAddress const*, unsigned int)`
+- `PVPGatewayDelegate::onPVPMatchLevelCorrection()`
+- `PVPGatewayDelegate::onPVPMatchObserverDelay()`
+- `PVPGatewayDelegate::onPVPMatchPause(UserThumb const*, bool)`
+- `PVPGatewayDelegate::onPVPMatchPredict()`
+- `PVPGatewayDelegate::onPVPMatchQuit(UserThumb const*)`
+- `PVPGatewayDelegate::onPVPMatchReady()`
+- `PVPGatewayDelegate::onPVPMatchRefuse(UserThumb const*, bool)`
+- `PVPGatewayDelegate::onPVPMatchSlot(int)`
+- `PVPGatewayDelegate::onPVPMatchStart()`
+- `PVPGatewayDelegate::onPVPMatchSwap(int)`
+- `PVPGatewayDelegate::onPVPMatchSwapFromObserver(UserThumb const*)`
+- `PVPGatewayDelegate::onPVPMatchSwapToObserver(UserThumb const*)`
+- `PVPGatewayDelegate::onPVPMatchSync()`
+- `PVPGatewayDelegate::onPVPMessageCardObtain(UserThumb const*, AssetIndex2 const&)`
+- `PVPGatewayDelegate::onPVPNoticeList(CSArray<Notice, 1, true> const*)`
+- `PVPGatewayDelegate::onPVPPartyBan()`
+- `PVPGatewayDelegate::onPVPPartyChangeHost()`
+- `PVPGatewayDelegate::onPVPPartyChat(Chat const*)`
+- `PVPGatewayDelegate::onPVPPartyCreate()`
+- `PVPGatewayDelegate::onPVPPartyEnter()`
+- `PVPGatewayDelegate::onPVPPartyEnterFail()`
+- `PVPGatewayDelegate::onPVPPartyEnterNotify(User const*)`
+- `PVPGatewayDelegate::onPVPPartyExit()`
+- `PVPGatewayDelegate::onPVPPartyExitNotify(User const*)`
+- `PVPGatewayDelegate::onPVPPartyExpire(CSString const*)`
+- `PVPGatewayDelegate::onPVPPartyInvite(UserThumb const*, PVPAddress const*, CSString const*)`
+- `PVPGatewayDelegate::onPVPPartyMap()`
+- `PVPGatewayDelegate::onPVPPartyRedirect(PVPAddress const*)`
+- `PVPGatewayDelegate::onPVPPartyRefuse(UserThumb const*, bool)`
+- `PVPGatewayDelegate::onPVPPartySlot(int)`
+- `PVPGatewayDelegate::onPVPPartyStart()`
+- `PVPGatewayDelegate::onPVPPartyStopNotify(User const*)`
+- `PVPGatewayDelegate::onPVPShutdown()`
+- `PVPGatewayDelegate::onPVPUpdateProfile(long)`
+- `PVPGatewayDelegate::onPVPUpdateState(long)`
+- `PVPGatewayDelegate::onPVPUserChat(ChatBox const*, Chat const*)`
+- `PVPGatewayDelegate::onPVPUserChatCreate(ChatBox const*)`
+- `PVPGatewayDelegate::onPVPUserChatFail(UserThumb const*)`
+- `PVPGatewayDelegate::onPVPUserState(long, UserState const*)`
+
+## Session (5)
+
+- `Session::Session(CSJSONObject const*)`
+- `Session::~Session()`
+
+## SessionInfo (8)
+
+- `SessionInfo::SessionInfo(long, CSString const*)`
+- `SessionInfo::clear(char const*)`
+- `SessionInfo::createFromLocal(char const*)`
+- `SessionInfo::save(char const*)`
+- `SessionInfo::~SessionInfo()`

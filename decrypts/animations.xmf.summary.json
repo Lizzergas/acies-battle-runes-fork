@@ -1,0 +1,58 @@
+{
+  "kind": "acies-old-cdk-animations",
+  "source": "acies-apktool/assets/animations.xmf",
+  "layers": [
+    "plain/unknown"
+  ],
+  "remaining": 1598490,
+  "parse_errors": [
+    {
+      "path": "3/8/0",
+      "dim": 1,
+      "start": 8469911,
+      "offset": 8472455,
+      "message": "unknown CSMovement type 34 at offset 8472454",
+      "next_hex": "c20000aac200000000050043110100152603050007000000000000003f00007ac200000000050200000000000000000000000000000000151603050007000d00"
+    }
+  ],
+  "animation_count_recursive": 15740,
+  "substance_counts": {
+    "sprite": 8053,
+    "none": 3029,
+    "particle": 4453,
+    "trail": 205
+  },
+  "derivation_counts": {
+    "multi": 5298,
+    "none": 10212,
+    "linked": 170,
+    "random": 16,
+    "emission": 44
+  },
+  "top_level_counts": [
+    7
+  ],
+  "first_level_parsed": 4,
+  "groups": [
+    {
+      "index": 0,
+      "count": 21,
+      "parsed_count": 21
+    },
+    {
+      "index": 1,
+      "count": 72,
+      "parsed_count": 72
+    },
+    {
+      "index": 2,
+      "count": 21,
+      "parsed_count": 21
+    },
+    {
+      "index": 3,
+      "count": 19,
+      "parsed_count": 9
+    }
+  ]
+}
