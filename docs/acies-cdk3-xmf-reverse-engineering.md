@@ -11,7 +11,7 @@ what remains game-specific.
 All paths below are relative to:
 
 ```text
-/Users/p997eyc/projects/boot/acies-disassemble
+/Users/p997eyc/projects/boot/acies
 ```
 
 Important local inputs:

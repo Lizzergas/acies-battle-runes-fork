@@ -17,7 +17,7 @@ serving compatible local mock responses.
 Work from:
 
 ```bash
-cd /Users/p997eyc/projects/boot/acies-disassemble
+cd /Users/p997eyc/projects/boot/acies
 ```
 
 Important generated directories may exist locally but are ignored by Git:
@@ -130,9 +130,12 @@ Run the local mock backend:
 python3 tools/acies_mock_server.py \
   --port 8080 \
   --status 200 \
-  --guest-success \
-  --tutorial-stages
+  --guest-success
 ```
+
+Use `--tutorial-stages` only when intentionally testing campaign tutorial
+progression. For reaching the lobby/main-menu layer, leave it off so the mock
+login returns completed campaign progress.
 
 Launch the app on an emulator:
 
@@ -196,11 +199,39 @@ python3 tools/extract_acies_so_pack.py \
 ## Local Backend State
 
 The HTTP mock has working synthetic guest login and tutorial-stage support.
-Current useful command:
+Current useful command for lobby/main-menu verification:
 
 ```bash
-python3 tools/acies_mock_server.py --port 8080 --status 200 --guest-success --tutorial-stages
+python3 tools/acies_mock_server.py --port 8080 --status 200 --guest-success
 ```
+
+2026-07-04 emulator proof used:
+
+```text
+APK: acies-localmock-noappsafer-signed.apk
+SHA256: 285bd3e61e3bb3c75b91e381ee78f17752f357a7aa7565e39c6eac4499ae8a58
+Screenshot: screenshots/acies-state-024-fresh-completed-menu-path.png
+```
+
+The first-run flow is: accept both terms checkboxes, sign in as Guest, confirm
+guest login, cancel the store reconnect dialog, tap the title screen, then
+cancel the Google Play Games install prompt. The main menu/lobby layer loads
+behind a season-results overlay. The process remains alive and polls the mock
+backend.
+
+For emulator UI exploration, tapping coordinates, first-run overlay handling,
+foreground mock-server workflow, and the settings/layout screenshot route, read:
+
+```text
+docs/acies-local-mock-backend.md
+docs/reproduction-guide.md
+```
+
+Physical phone/Appup note: the current APK redirects to emulator-only
+`http://10.0.2.2:8080`, and the generated APK is about `691M`. Before shipping
+via App Uploader, patch the redirect to a phone-reachable host and account for
+the App Uploader server's current artifact-size cap if it is still configured
+for smaller APKs.
 
 Known implemented route families include:
 
@@ -266,4 +297,3 @@ git status --short --ignored
 git ls-files -z | xargs -0 du -ch | tail -1
 find . -type f -size +50M -not -path './.git/*' -print
 ```
-

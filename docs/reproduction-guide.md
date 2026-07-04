@@ -50,7 +50,7 @@ python3 -m venv .venv-xmf
 The main workspace is:
 
 ```bash
-cd /Users/p997eyc/projects/boot/acies-disassemble
+cd /Users/p997eyc/projects/boot/acies
 ```
 
 ## Inputs
@@ -87,6 +87,17 @@ acies-apktool/smali_classes3/
 
 Patches intended for the rebuilt APK should be made in `acies-apktool/`, not in
 the JADX tree.
+
+Current local-play patches used for emulator menu verification:
+
+```text
+acies-apktool/smali/kr/co/brgames/cdk/CSURLRequest.smali
+acies-apktool/smali/kr/co/brgames/cdk/extension/CSAppSafer.smali
+```
+
+`CSURLRequest.smali` redirects the dead production host to
+`http://10.0.2.2:8080`. `CSAppSafer.smali` no-ops the local protection setup so
+the debug-signed rebuild is not killed before login.
 
 ## Recreate `acies-jadx/`
 
@@ -346,7 +357,7 @@ zipalign -p -f 4 acies-rebuilt-unsigned.apk acies-rebuilt-aligned.apk
 
 apksigner sign \
   --ks debug.keystore \
-  --out acies-rebuilt-signed.apk \
+  --out acies-localmock-noappsafer-signed.apk \
   acies-rebuilt-aligned.apk
 ```
 
@@ -368,12 +379,103 @@ keytool -genkeypair \
 Install and launch:
 
 ```bash
-adb install -r acies-rebuilt-signed.apk
+adb install -r acies-localmock-noappsafer-signed.apk
 adb shell am force-stop com.creagames.clashoflegions
 adb shell am start -n com.creagames.clashoflegions/kr.co.brgames.talescraft2.MainActivity
 ```
 
 The rebuilt APK files are ignored by Git.
+
+2026-07-04 verified artifact:
+
+```text
+acies-localmock-noappsafer-signed.apk
+SHA256 285bd3e61e3bb3c75b91e381ee78f17752f357a7aa7565e39c6eac4499ae8a58
+size about 691M
+```
+
+Run the mock backend before launch:
+
+```bash
+python3 tools/acies_mock_server.py --port 8080 --status 200 --guest-success
+```
+
+Use `--tutorial-stages` only when testing tutorial progression. For the shortest
+path to the lobby/main-menu layer, leave it off.
+
+First-run emulator tap flow:
+
+```text
+accept both terms checkboxes
+Sign in as Guest
+OK on the guest warning
+Cancel the store reconnect dialog
+tap TOUCH THE SCREEN
+Cancel the Google Play Games install prompt
+```
+
+Take screenshots with:
+
+```bash
+adb exec-out screencap -p > screenshots/acies-state.png
+```
+
+The 2026-07-04 lobby proof screenshot is:
+
+```text
+screenshots/acies-state-024-fresh-completed-menu-path.png
+```
+
+The 2026-07-04 settings/layout proof screenshot is:
+
+```text
+screenshots/acies-hotkeys-037-final-settings-attempt.png
+```
+
+Fast emulator exploration checklist:
+
+```bash
+adb shell wm size
+adb shell dumpsys window | grep -iE 'mCurrentFocus|DisplayFrames'
+adb logcat -d -t 250 | grep -iE 'CSURLRequest|CSURLConnectionBridge|Failed to connect|Connection refused|Billing|Google|play|store|Exception|FATAL|signal'
+```
+
+In the verified landscape framebuffer (`3120x1440`), these taps were useful:
+
+```text
+Title screen: 1560 1260
+Store reconnect Cancel: 1250 985
+Google Play Games Cancel: 1800 950
+Lobby gear/settings: 3000 82
+```
+
+If the first-run reward/season OK button ignores a single tap, sweep the
+button area:
+
+```bash
+for y in 1120 1180 1240 1300; do
+  for x in 1280 1500 1720 1840; do
+    adb shell input tap "$x" "$y"
+    sleep 0.15
+  done
+done
+```
+
+Do not force-stop unless necessary after reaching the lobby; relaunching brings
+back the billing dialog, Google Play prompt, title tap, and first-run overlays.
+For settings/layout screenshots, clear the overlay and tap the gear before the
+next `/api/client-secure/season-result` refresh.
+
+The main menu/lobby can load behind a season-results overlay. If it reappears,
+the current trigger is the periodic `/api/client-secure/season-result` refresh;
+the client process is still alive and polling the mock. Keep the endpoint as a
+200 response while exploring because returning 404 opens a blocking server-lost
+dialog.
+
+App Uploader note: this APK is too large for an App Uploader server configured
+with a 250 MiB artifact cap, and the `10.0.2.2` redirect only works on an
+emulator. For a phone/Appup run, rebuild with a phone-reachable mock URL and
+raise or bypass the upload-size cap first.
 
 ## Useful Logcat Commands
 
@@ -429,4 +531,3 @@ decrypts/game/
 decrypts/meshes/
 decrypts/terrain/
 ```
-

@@ -428,8 +428,8 @@ def tutorial_step_response(request: dict[str, object], state: MockState) -> dict
 
 def pvp_server_response() -> dict[str, object]:
     return {
-        "host": "",
-        "port": 0,
+        "host": "10.0.2.2",
+        "port": 9090,
     }
 
 
