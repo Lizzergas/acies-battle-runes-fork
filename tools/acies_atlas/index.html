@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Acies Atlas</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="vfx-scene.js" defer></script>
+  <script src="vfx-player.js" defer></script>
+  <script src="unit-art.js" defer></script>
+  <script src="atlas.js" defer></script>
+</head>
+<body>
+  <header class="shell">
+    <div class="shell-inner">
+      <div class="brand"><span class="mark" aria-hidden="true"></span>Acies Atlas</div>
+      <span class="build" id="build"></span>
+    </div>
+  </header>
+  <main>
+    <div class="intro">
+      <h1>Balance &amp; missions</h1>
+    </div>
+    <nav class="tabs" aria-label="Atlas sections">
+      <button type="button" data-view="units" aria-current="page">Units</button>
+      <button type="button" data-view="runes">Runes</button>
+      <button type="button" data-view="maps">Missions</button>
+      <button type="button" data-view="damage">Damage matrix</button>
+      <button type="button" data-view="music">Music</button>
+      <button type="button" data-view="sounds">Sound effects</button>
+      <button type="button" data-view="vfx">VFX</button>
+    </nav>
+    <p id="status" role="status">Loading the local atlas…</p>
+    <div class="audio-folder" hidden>
+      <label class="folder-button">Choose audio folder
+        <input id="audio-folder" class="sr-only" type="file" webkitdirectory aria-describedby="audio-folder-status">
+      </label>
+      <span class="meta" id="audio-folder-status" role="status">Select your extracted <code>all</code> folder to play audio locally.</span>
+    </div>
+    <section class="audio-player" id="audio-player" aria-label="Audio player" hidden>
+      <div>
+        <p id="playing-title"></p>
+        <p class="meta" id="playback-error" role="status" hidden>This clip could not be played.</p>
+      </div>
+      <audio controls preload="none" aria-labelledby="playing-title"></audio>
+    </section>
+    <section id="catalog" class="workspace" hidden aria-label="Catalog">
+      <section class="listing" aria-label="Search results">
+        <div class="toolbar">
+          <label class="search"><span class="sr-only" id="search-label">Search units</span>
+            <input id="search" type="search" placeholder="Search units" aria-labelledby="search-label" autocomplete="off">
+          </label>
+          <span class="count" id="count" aria-live="polite"></span>
+          <label><span class="sr-only">Sort results</span>
+            <select id="sort" aria-label="Sort units">
+              <option value="name">Name</option>
+              <option value="health">Highest health</option>
+              <option value="damage">Highest damage</option>
+              <option value="gold">Highest gold cost</option>
+            </select>
+          </label>
+        </div>
+        <div id="list"></div>
+      </section>
+      <section id="detail" class="detail" aria-label="Selected record"></section>
+    </section>
+    <section id="matrix" hidden aria-label="Damage matrix"></section>
+    <section id="vfx" hidden aria-label="Visual effects catalog">
+      <div class="vfx-workspace">
+        <section class="vfx-library" aria-label="Effect library">
+          <div class="vfx-search">
+            <input id="effect-search" type="search" placeholder="Search effects or ID" aria-label="Search effects or enter an ID" autocomplete="off">
+            <select id="effect-filter" aria-label="Filter effects">
+              <option value="all">All animations</option>
+              <option value="tutorial">Tutorial graphics</option>
+              <option value="playable">Has web preview</option>
+              <option value="unavailable">Without a web preview</option>
+            </select>
+            <div class="vfx-library-status">
+              <p class="meta" id="effect-status" role="status">Loading the animation library…</p>
+              <a href="#vfx-captures" id="effect-capture-link" hidden>In-game captures ↓</a>
+            </div>
+          </div>
+          <div id="effect-list" tabindex="0" aria-label="Matching animations"></div>
+          <button type="button" id="effect-more" hidden>Show more</button>
+        </section>
+        <section class="vfx-inspection" aria-label="Effect preview">
+          <header class="vfx-heading">
+            <h2 id="effect-title" tabindex="-1">Effect preview</h2>
+            <span id="effect-id" class="meta"></span>
+          </header>
+          <div class="vfx-stage" data-background="dark">
+            <img id="effect-terrain" alt="" hidden>
+            <canvas width="800" height="450" aria-label="Selected animation preview"></canvas>
+            <img id="effect-source-art" alt="Source frame" hidden>
+            <p id="effect-message" role="status" hidden></p>
+          </div>
+          <div class="vfx-controls">
+            <button id="effect-play" type="button" disabled>Pause</button>
+            <button id="effect-replay" type="button" disabled>Restart</button>
+            <input id="effect-time" type="range" min="0" max="1" step="0.01" value="0" aria-label="Playback time" disabled>
+            <output id="effect-clock" for="effect-time"></output>
+          </div>
+          <div class="vfx-settings">
+            <label>View <select id="effect-view"><option value="battlefield">Battlefield</option><option value="isolated">Isolated</option></select></label>
+            <label>Zoom <select id="effect-zoom"><option value="fit">Fit</option><option value="1">100%</option><option value="2">200%</option></select></label>
+            <label id="effect-background-label">Background <select id="effect-background"><option value="dark">Dark</option><option value="light">Light</option><option value="checker">Checkerboard</option></select></label>
+            <span class="meta" id="effect-preview-label" hidden>Web reconstruction</span>
+          </div>
+          <dl id="effect-info" class="vfx-info"></dl>
+        </section>
+      </div>
+      <section id="vfx-captures" class="vfx-captures" hidden aria-labelledby="vfx-captures-title">
+        <h2 id="vfx-captures-title">Tutorial graphics on a physical phone</h2>
+        <div class="vfx-capture-grid"></div>
+      </section>
+      <section id="vfx-portraits" class="vfx-captures" hidden aria-labelledby="vfx-portraits-title">
+        <h2 id="vfx-portraits-title">Tutorial dialogue portraits</h2>
+        <div class="vfx-portrait-grid"></div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>

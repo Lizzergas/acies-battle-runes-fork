@@ -59,30 +59,44 @@ Unity, Unreal, Cocos, or Godot.
 
 ## CDK3 Evidence
 
-The cloned `cdk3/` repository appears to be the same engine family:
+Git tracks `cdk3/README.md` and `cdk3/.gitignore`. The supplied
+`CDK3-master.zip` is extracted locally under `cdk3/source/` and excluded
+from Git in this checkout. The APK carries the compiled CDK and ACIES runtime in
+`libcdkapp.so` for ARM64, ARMv7, and x86-64, alongside Android DEX files and
+the packaged XMF data.
+
+The extracted CDK3 source provides a reference for the engine family:
 
 - `cdk3/README.md` says it is based on the mobile game engine used in Tales
   Craft and ACIES projects.
-- `cdk3/client/src/CDK` contains the C++ engine runtime.
-- `cdk3/editor/src` contains a C# asset editor.
-- `cdk3/client/src/CDK/Sources/IO/CSBuffer.cpp` defines the primitive binary
+- `cdk3/source/client/src/CDK` contains the C++ engine runtime.
+- `cdk3/source/editor/src` contains a C# asset editor.
+- `cdk3/source/client/src/CDK/Sources/IO/CSBuffer.cpp` defines the primitive binary
   format used by built assets.
-- `cdk3/editor/src/CDK.Assets/Version/VersionAsset.cs` defines how version
+- `cdk3/source/editor/src/CDK.Assets/Version/VersionAsset.cs` defines how version
   manifests are written.
-- `cdk3/editor/src/CDK.Assets/Support/Crypto.cs` defines the AES/hash behavior
+- `cdk3/source/editor/src/CDK.Assets/Support/Crypto.cs` defines the AES/hash behavior
   used by the asset build tools.
 
 Useful source references:
 
 ```text
-cdk3/client/src/CDK/Sources/IO/CSBuffer.cpp
-cdk3/client/src/CDK/Sources/Core/CSString.cpp
-cdk3/client/src/CDK/Sources/Core/CSLocaleString.cpp
-cdk3/editor/src/CDK.Assets/Support/Crypto.cs
-cdk3/editor/src/CDK.Assets/Version/VersionAsset.cs
-cdk3/editor/src/CDK.Assets/Version/VersionEntry.cs
-cdk3/editor/src/CDK.Assets/TypeUtil.cs
+cdk3/source/client/src/CDK/Sources/IO/CSBuffer.cpp
+cdk3/source/client/src/CDK/Sources/Core/CSString.cpp
+cdk3/source/client/src/CDK/Sources/Core/CSLocaleString.cpp
+cdk3/source/editor/src/CDK.Assets/Support/Crypto.cs
+cdk3/source/editor/src/CDK.Assets/Version/VersionAsset.cs
+cdk3/source/editor/src/CDK.Assets/Version/VersionEntry.cs
+cdk3/source/editor/src/CDK.Assets/TypeUtil.cs
 ```
+
+The archive's `CSBuffer::readLength()` uses the same high-bit continuation
+and seven-bit groups as `tools/xmf_probe.py`. Its editor encryptor uses
+AES-256-CBC with PKCS#7 padding and the first 16 key bytes as the IV. These
+match the read and write assumptions verified against the original ACIES
+menu asset. The extracted C++ and C# trees contain no definitions of
+`ClanData` or `UnitData` under those names. Use the native ACIES readers
+to identify those records and the local CDK source to check primitive types.
 
 ## Can CDK3 Launch On macOS?
 
@@ -559,10 +573,39 @@ decrypts/images/index.html
 decrypts/images/thumbs/
 ```
 
-The image decoder currently extracts the full atlas texture. The trailing bytes
-after the root image block are almost certainly subimage/atlas rectangle
-metadata. That tail still needs a dedicated parser if individual icons/sprites
-should be cropped automatically.
+`parse_subimage_frames` reads the default rectangles and skips locale-specific
+overrides. It matches the `CSSubImage` constructor and parsed 86,352 rectangles
+across all 483 image files. `Asset::image(AssetIndex3 const&)` uses the first
+two indices to load the atlas and the third to select a rectangle. The ETC2
+decoder converts the texture library's BGRA output to RGBA for PNG export.
+
+### Local balance atlas
+
+To include the audio catalog, first follow the [audio extraction instructions](acies-audio-extraction.md)
+if `decrypts/audio/manifest.json` is missing.
+
+```bash
+uv run --no-project --python 3.12 --with pillow --with texture2ddecoder \
+  python tools/build_acies_atlas.py --include-audio
+python3 tools/serve_acies_atlas.py
+```
+
+Open [Acies Atlas](http://127.0.0.1:8876/). The builder uses the extracted
+APK in `acies-apktool/assets` and defaults to `game[083].xmf`. Pass
+`--version` to build from another packaged game database. The output is a
+read-only static browser with unit stats, rune effects, the damage matrix,
+mission text, and searchable music and sound-effect lists. Audio entries show
+in-game names where available, embedded credits, license evidence, and APK paths. On either audio tab, click
+**Play** next to an entry to listen. The `--include-audio` option links the
+extracted audio into the local server's output. For a metadata-only build, omit
+that option. In that build, use **Choose audio folder** and select
+`decrypts/audio/all` to listen from your own device. Pass `--audio-manifest`
+for a manifest in another directory. See [audio provenance](acies-audio-provenance.md)
+for the evidence behind the credits.
+
+For version 083, 86 of 111 unit records have a default portrait in the
+mapped fields. The browser resolved every rune and map thumbnail, covering
+142 runes and 34 maps.
 
 ## Mesh Decoding
 
@@ -661,6 +704,20 @@ Smallest mesh:
 ```text
 mesh[000][004].xmf  48 triangles, 144 vertices
 ```
+
+### Unit sprite inspector
+
+The game's unit appearance is stored in sprite animation banks. The `SkinData` motion slots in `data/game[083].xmf` point to `animations.xmf`. Normal troop motions often contain twelve child sprites keyed by facing. The client selects a facing using `Object::animationVisibleKey` at `0x59e228`. `CSSprite::duration` at `0x7e4c1c` multiplies the authored frame interval by the number of frame records. Unit sprite textures and frame rectangles come from the APK's `images` atlases. The fifteen mesh files serve other assets.
+
+The Units tab shows the source sprite artwork, skin and motion selectors, available facing angles, a frame scrubber, and the exported WebP sheet for the selected view. Version 083 yields 69 unit records, 93 skins, 358 unique sprite motions, and 3,009 facing sheets. The exporter composes the source 2D image layers at their authored offsets and uses the stored frame intervals. In-game team tinting, terrain shadows, particle emitters, and animated world transforms are outside the inspector. The Smoke and Observation Tower motion slots lead to particle effects. [Smoke in VFX](http://127.0.0.1:8876/?view=vfx&effect=4%2F1%2F12) · [Observation Tower in VFX](http://127.0.0.1:8876/?view=vfx&effect=6%2F0%2F1)
+
+```sh
+uv run --no-project --python 3.12 --with pillow --with texture2ddecoder \
+  python tools/build_acies_atlas.py --include-audio --include-unit-art
+python3 tools/serve_acies_atlas.py --bind 127.0.0.1
+```
+
+The generated JSON and WebP sheets live in `work/acies-atlas/unit-art/`. Add `--vfx-captures work/atlas-vfx-capture` for a fresh build that also includes the VFX catalog and phone capture gallery. [Unit art exporter](../tools/build_acies_unit_art.py)
 
 ## Terrain XMF Decoder
 
@@ -949,6 +1006,75 @@ major records so schema mistakes can be traced back to the binary. Repeated byte
 arrays, including ability bytecode-like fields, are stored as compact hex plus
 small value lists where short enough.
 
+### Unit production balance
+
+The unit CSV exposes five production fields, the attack and armor classes,
+and their absolute decimal offsets in the decoded asset. The JSON records each field's storage
+type. Use `(group, index)` to identify a unit in a specific asset version.
+Regenerate the table for that version before editing, since the offsets
+depend on the sizes of earlier records.
+
+| CSV field | Storage | Native reader |
+| --- | --- | --- |
+| `population_cost` | Unsigned byte | `Unit::setForce`, `Unit::updateProducing` |
+| `extra_units_per_batch` | Unsigned byte | `Unit::updateProducing` adds one to get the batch size |
+| `gold_cost` | Unsigned 16-bit little-endian | Resource slot 0 in `Unit::ctProduce` |
+| `gas_cost` | Unsigned 16-bit little-endian | Resource slot 1 in `Unit::ctProduce` |
+| `base_production_seconds` | Unsigned 16-bit little-endian | `Unit::updateProducing` compares the fixed-point threshold with progress after applying production speed |
+| `attack_type_id` and `armor_type_id` | Signed byte each | `AbilityData::value` opcode 12 indexes the damage matrix by attacker and target class |
+
+In `game[083].xmf`, Swordsman costs 75 gold and 3 population, with 11
+base production seconds. Hound costs 50 gold and 1 population per unit,
+with two units per batch and 9 base production seconds. The native reader
+checks capacity for the whole batch. These fields apply to the normal
+production path. Other construction and summon paths have their own rules.
+
+### Combat stats, runes, and buffs
+
+```bash
+python3 tools/decode_acies_game_data.py acies-apktool/assets/data/game*.xmf \
+  --out-dir work/balance-map
+```
+
+Use `*.ability-programs.csv` to look up a unit or a rune by name. Its rows
+follow the program's stored line order and include global ability,
+unit, rune, and buff programs. `group` and `index` distinguish duplicate
+names. `core_role` comes from the game's short table. `ability_name` comes
+from localized display metadata and can be blank or shared by several IDs.
+
+The first eight short-table slots resolve to base health, additional health,
+vision, attack damage, minimum and maximum attack range, attack speed, and
+movement speed. For `game[083].xmf`, the IDs are `0, 2, 4, 7, 19, 20, 15, 5`.
+Native evidence includes `Unit::updateDegrees` and `Unit::maxHealth` for
+health, `Unit::updateSight` for vision, `Unit::attack` and
+`Unit::atAttackWatch` for damage and range, `Valuations::valuation` for
+attack speed, and `Unit::escape` for movement speed. ID `3` is labeled
+Armor in the game data.
+
+- `literal_offset` points to a signed 8-byte little-endian value scaled
+  by 65,536. The `instruction` column contains offsets for level factors
+  and tables as well as the operation, register, and any references.
+- Values can be modified by level, targets, runes, buffs, and the global
+  formula. `AbilityUnitData::value` also applies the entry's conditional
+  bounds. A zero bound disables that bound. The CSV includes the bounds and
+  target-reference IDs. Treat each literal as a formula operand.
+- In `game[083].xmf`, Archer's unit program sets Health to 100, Damage to
+  17, Vision to 8, and Max. Range to 7. The first two have compound level
+  factors. `Unarmored Defense + Tier 1` adds 1 to Armor and adds about 0.4
+  per additional level. The rune catalog includes the unit filter used by
+  `RuneData::match`.
+- `*.damage-matrix.csv` maps the fixed-point multipliers from each attack
+  class to each armor class. `*.buffs.csv` maps buff durations.
+- Arithmetic, fixed-point literals, level scaling, branches, and matrix
+  lookup have decoded operands. Some predicates still have generic labels
+  and filter internals are present as raw bytes. Buff action and unit
+  command programs use other dispatchers and remain structural.
+
+All 13 packaged versions parsed with no trailing bytes. The export contains
+12,844 ability-program lines across those versions. Sample edits to Archer's
+health, a rune level factor, and one damage multiplier read back at the
+expected offsets in memory.
+
 Top-level `Asset::loadGame(int)` order:
 
 ```text
@@ -1103,11 +1229,66 @@ Important map parser corrections:
   a single nested table shifts the subsequent `Squad[][]` parse and hides the
   trigger bytecode.
 
-The trigger section is currently decoded only structurally as `uint8[][][]`.
-That is enough to preserve the bytecode and offsets in readable JSON, but not
-enough to name opcodes. Opcode semantics are in ACIES-specific native functions
-such as `Map::mtMission`, `Map::mtEvent`, `Map::mtPlayer`, `Map::mtReadUnits`,
-`Map::mtReadSquads`, and the other `Map::mt*` helpers.
+### Mission and map rules
+
+The native `Map::updateSetting` table at `0x3b1fa6` maps all 62 opcode IDs.
+The decoder indexes each packaged map's trigger instructions by group and
+line in `triggers.csv`. Each row includes the opcode, decoded asset offset,
+and original bytes. Operand layouts come from the native `Map::mt*` handlers.
+
+```bash
+python3 tools/decode_acies_map.py acies-apktool/assets/maps/map*.xmf \
+  --out-dir work/balance-map/maps
+```
+
+Decoded operands include mission IDs and add/remove actions, localized text
+or text references, positions, delays, timers, resource and supply changes,
+variable comparisons, and tutorial skip and analytics instructions. The
+player, event, and control rows expose the selector and mode, plus raw bytes
+for any remaining operands. Resource, timer, and wait literals include
+absolute offsets. The map JSON also contains terrain, placements, squads,
+areas, camera data, and the original trigger arrays.
+
+Mission IDs in these scripts are local to the map. Campaign unlocks and
+progression also depend on the backend's campaign-stage state. An opcode
+name identifies its dispatch entry. Rows with `null` operands still need
+an operand decoder, and some conditional paths need runtime verification.
+
+All 34 maps parsed with no trailing bytes. Of 2,018 trigger lines, 1,011 have
+their full operand layout decoded, 131 have a decoded prefix, and 876 have
+raw operands. All 204 mission instructions have their operand layout decoded.
+A sample one-second wait adjustment read back correctly in memory.
+
+### Arcade unit test range
+
+Build an ARM64 Arcade variant from the signed local Fold 7 client before
+running the usual APK alignment and signing steps.
+
+```bash
+uv run --no-project --python 3.12 python tools/build_acies_arcade.py \
+  acies-fold7.apk work/arcade-unsigned.apk
+```
+
+The builder fingerprints the native library and adds
+`maps/map[006][000][001].xmf`. Without the scenario toolchain it adds an
+**Arcade** button above **Contact Us** in Options. The
+launcher follows the bundled `MapTestLayer` path and uses offline mode 30.
+The range reuses the packaged terrain and adds a new spawn layout, 56
+pre-placed unit and building types, 12 opposing targets, and starting
+resources. Spells and transient scripted entities are outside the placement
+roster. The generator round-trips the new map through the asset decoder.
+
+Pass `--scenario-toolchain` with the Android NDK LLVM prebuilt directory to
+build the scenario editor variant. The lobby's **Options → Debug** tab has
+**Arcade** and **Map & AI**. Map & AI opens the client's existing map picker
+and AI selector. Exiting Arcade returns to the Debug tab.
+The Arcade range opens with empty teams.
+Tap **< Unit** to go back or tap the selected unit name to go forward.
+**Add to team 1** and **Add to team 2** queue one of the selected unit type,
+up to 24 per side. **Play** deploys both lineups onto fixed pads in the
+same clearing and issues Attack Move commands. **Reset**
+removes deployed units while retaining the lineup. **Clear teams** empties
+the lineup during setup. Map script calls run on the simulation thread.
 
 ## Notes For Future Sessions
 
@@ -1171,22 +1352,30 @@ Important old-layout differences:
 - `CSAnimationDerivationLinked` reads an `int32` loop count.
 - `CSAnimationDerivationEmission` reads `float delay`, `int32 capacity`,
   `bool prewarm`.
+- `CSMeshMaterial` reads a material, a boolean, and a counted array of
+  `uint16` indices. The constructor starts at `0x7f3904` in the ARM64 client.
+- `CSChain` and `CSTrail` read different payloads. Before the color movement
+  fields, chains have two flags and three floats and trails have three flags
+  and five floats. The chain constructor starts at `0x7e6f04`.
 
 Current animation parse result:
 
 ```text
-recursive animations parsed: 15740
-remaining after first isolated failure: 1598490
-substance counts: sprite=8053, particle=4453, trail=205, none=3029
-derivation counts: multi=5298, linked=170, random=16, emission=44, none=10212
-first failure path: 3/8/0
-first failure offset: 8472454
-reason: unknown CSMovement type 34
+top-level animations parsed: 1962
+recursive animations parsed: 20751
+remaining bytes: 0
+substance counts: sprite=9237, particle=6974, trail=323, model=21, chain=17, none=4179
+derivation counts: multi=6905, linked=275, random=33, emission=58, none=13480
 ```
 
-So `animations.xmf` is no longer opaque, but it is not a complete parse yet.
-The next fix should focus on the branch around offset `0x8148c6` / decimal
-`8472454`, probably a remaining old animation/substance field mismatch.
+The mesh material and chain layouts resolve the former alignment failure at `3/8/0`.
+The VFX exporter converts supported sprite and particle layers to browser previews.
+[Animation inventory](../decrypts/animations.xmf.summary.json) · [VFX exporter](../tools/build_acies_vfx.py)
+
+```sh
+python3 tools/decode_cdk_animation.py acies-apktool/assets/animations.xmf \
+  --summary --output decrypts/animations.xmf.summary.json
+```
 
 `data/menu.xmf` status:
 
@@ -1248,13 +1437,30 @@ AssetIndex3
 AssetIndex3[]
 ```
 
-Trigger bytecode:
+The supported Android menu's clan creation price is a little-endian signed
+32-bit integer at decoded offset `0x16e600`. `Asset::loadMenu()` constructs
+`ClanData` from this section, `ClanData::ClanData(CSBuffer*)` reads an integer
+first, and `ClanCreateLayer::onDrawCreate` reads that field for the price.
+The surrounding record starts with `30000, 3000, 3000, 500`, followed by
+four 16-bit values `50, 30, 5, 50`. `ClanMainLayer::onDrawContentTab`
+uses the last of those 16-bit values, at decoded offset `0x16e616`, as the
+denominator in the roster count. `ClanCreateLayer` uses the 32-bit values at
+`0x16e608` and `0x16e60c` as the maximum selectable join score (3,000) and
+the button increment (500). The tool reports all four settings and can
+export a price change. The local backend enforces a 30-member clan limit
+and accepts a join score of zero. Those rules live in the backend.
 
-The map trigger bytecode is still only structurally preserved as `uint8[][][]`.
-The next semantic pass should start from `Map::mtEvent`, `Map::mtMission`, and
-`Map::mtPlayer`, then name opcodes by following their calls into helpers like
-`Map::mtReadUnits`, `Map::mtReadSquads`, `Map::mtReadResources`,
-`Map::mtReadAssetIndex2`, and `Map::mtReadLocaleString`.
+```sh
+python3 tools/patch_acies_menu.py acies-apktool/assets/data/menu.xmf
+python3 tools/patch_acies_menu.py acies-apktool/assets/data/menu.xmf \
+  --clan-create-gold 5000 --output work/menu-clan-fee-5000.xmf
+```
+
+Use Python 3.10 or newer and OpenSSL. The tool accepts the original
+fingerprinted asset and creates a separate output file. Exporting 30,000
+reproduced the original encrypted file byte for byte. Exporting 5,000 decoded
+with a valid checksum and changed only the price field. Android still needs
+a rebuilt client with that asset before its displayed fee changes.
 
 Do not restart from raw APK analysis. The important established facts are:
 
@@ -1265,9 +1471,8 @@ Do not restart from raw APK analysis. The important established facts are:
 - Many `.xmf` files are gzip-only and do not need AES.
 - `version.xmf` is now parsed completely.
 - `strings.xmf` is fully parsed.
-- `animations.xmf` has a large best-effort old-CDK parse, with one known
-  remaining alignment failure.
-- `data/menu.xmf` has a known native section order but no record-level decoder
-  yet.
+- `animations.xmf` parses completely as the older CDK animation layout.
+- `data/menu.xmf` has a known native section order and a verified clan price
+  field. A full record-level decoder is still pending.
 - Full game/map parsing requires following `CSBuffer` constructor/read functions
   in `libcdkapp.so`.

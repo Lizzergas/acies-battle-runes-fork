@@ -133,18 +133,92 @@ The patched APK uses `10.0.2.2`, so this server location only works for an
 Android emulator on the same Mac. A physical phone build needs the redirect
 host changed to a phone-reachable URL, such as a Tailscale/VPS hostname.
 
-The current local mock returns `10.0.2.2:9090` for
-`/api/client-secure/pvp-server`. For lobby/settings UI verification, a dummy
-listener is enough:
+The mock advertises the hostname from `--admission-url` and port
+`--pvp-port` in `/api/client-secure/pvp-server`. The defaults are
+`10.0.2.2` and `9090`. For a physical phone, set the admission URL to
+the same phone-reachable origin as the APK redirect and bind to the
+corresponding local interface. Use `--lobby-listener` to keep the lobby
+socket open during UI verification:
 
 ```sh
-mkdir -p logs run
-nohup python3 -u -c 'import socket, threading, time; s=socket.socket(); s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1); s.bind(("0.0.0.0", 9090)); s.listen(); print("acies dummy pvp listening on 0.0.0.0:9090", flush=True)
-while True:
-    c, a = s.accept(); print("accepted", a, flush=True); threading.Thread(target=lambda x: (time.sleep(3600), x.close()), args=(c,), daemon=True).start()' \
-  > logs/acies_dummy_pvp.log 2>&1 &
-echo $! > run/acies_dummy_pvp.pid
+python3 -u tools/acies_mock_server.py \
+  --host "$TAILSCALE_IP" --port 8080 \
+  --admission-url "http://$TAILSCALE_IP:8080" \
+  --guest-success --lobby-listener
 ```
+
+The listener acknowledges the local client's gateway login. The two-player
+matchmaking and match handlers are enabled by the LAN guest configuration below.
+
+For username/password accounts, authenticated gateway access, and the VPS
+configuration, see [ACIES community beta](acies-community-deployment.md).
+
+For two-phone LAN testing, run a separate instance on the Mac's LAN IP with
+its own HTTP port, gateway port, and capture directory. Pass
+`--guest-device LAN_IP NAME` once per phone in seat order. Each enrolled
+source address gets its own guest ID and SQLite file. Keep those addresses
+and their argument order stable when restarting the LAN test. The APK must
+route admission to the LAN instance's HTTP address and port.
+
+On the N100 and Pixel 1, the LAN build completed both guest logins with
+separate IDs. The **Battle → 1v1 → Start → Select** flow pairs the guests,
+loads Windmill Boot Camp on both phones and starts the simulation after both
+clients report ready. The gateway advances at 40 simulation frames per second,
+matching the online client's default. The initial 20-frame implementation
+made the match clock and simulation run at roughly half speed. After the fix,
+the Pixel's timer advanced from 00:07 to 00:18 over 11 seconds of recording.
+The N100's advanced from 01:37 to 01:46 over nine seconds of recording.
+
+The lab gateway sends validated unit and deck commands to both peers at the
+same simulation frame. The gateway ends each command frame with a zero-length
+block. Omitting it caused the Pixel's native command parser to crash. With
+the terminator in place, both phones built refineries in the same match and
+continued playing. Movement, attacks, and deck actions still need verification
+in the Android client.
+
+The N100 surrendered in a live match. Both phones reached the results screen
+with the Pixel showing a win and the N100 a loss. The server saves complementary
+results to the two guest databases and uses those rows for local normal-match
+play and win totals. The winner's result screen asks whether to upload a TV
+replay before exiting. The lab returns a local response that lets that screen
+continue to the 1v1 screen. Both phones then queued and loaded another match
+without an app restart.
+
+For an in-progress match, the gateway reserves a disconnected player's seat
+for 45 seconds after detecting the socket drop. The same enrolled guest can
+resume from the last frame limit the client received. The gateway replays
+missed command frames and then resumes live updates. An eight-second Wi-Fi
+interruption on the N100 returned it to the same match while the Pixel kept
+playing. The N100 also rejoined after the Pixel issued a refinery order
+during a second interruption. A two-socket test verified that a missed order
+was replayed exactly once. Match state is held in memory. Server restarts end
+active matches.
+
+Combat actions, additional maps and modes, and private invitations across
+networks need further verification or implementation before sharing this build.
+
+Use `--state-db captures/local-guest.sqlite3` to persist the guest's starter deck
+name and card order, tutorial progress, and submitted battle results. Battle results are
+deduplicated by their transaction IDs. In staged tutorial mode, a saved guest
+resumes their tutorial progress on relaunch.
+
+The local guest starts with 100,000 gold and 100,000 blue card-material
+crystals and three starter-card offers. Each
+local purchase consumes gold and stock and saves the new card count to the
+same database. Five sample profiles populate player rankings and friend
+recommendations. The login response advertises an active local season so a
+fresh session does not immediately request an expired season's results.
+
+Enrolled lab guests can create, find, join, and leave open clans. Clan creation
+deducts 5,000 gold and ownership transfers to another member if the owner
+leaves. Owners can change the notice. The existing APK reads its displayed
+30,000-gold creation price from its bundled menu data. The server applies the
+5,000-gold fee when creation succeeds.
+
+Clan membership, creation charges, and the most recent 50 messages per
+channel or clan are in `social.sqlite3` under the capture directory. Clan
+chat delivery checks membership. Direct messages, private clan approvals,
+and clan war are pending.
 
 The important startup line is:
 
@@ -872,9 +946,10 @@ after stage 2 -> [0, 0]
 after stage 3 -> [0, 0, 0, 1, 1, 1]
 ```
 
-The third stage intentionally switches to the completed campaign array so the
-client can leave the mandatory tutorial path and enter the main lobby instead of
-looping back into the first tutorial battle.
+The third stage switches to the six-slot campaign array so the client can
+enter the main lobby. Recorded victories mark each completed mission in the
+array. A recorded win on mission six adds an unlocked slot for mission seven.
+On restart the server derives those flags from saved battle results.
 
 After the third campaign tutorial, the client may still start a separate lobby
 tutorial overlay and call:
@@ -891,8 +966,8 @@ The observed request was:
 
 Returning that step literally allowed the native tutorial script to continue and
 hit `Tutorial::ttError()`, showing `Code : 14000` with details like
-`(0 / 1 / 0 -> 54)`. In `--tutorial-stages` mode, once the three campaign stages
-are complete, the mock now answers tutorial-step calls with `step: 999` and
+`(0 / 1 / 0 -> 54)`. Once the campaign tutorial is complete or the server
+starts in completed mode, the mock answers tutorial-step calls with `step: 999` and
 `skip: true` while preserving the completed `campaignStages`. This marks the
 lobby overlay tutorial category complete so the client can stay in the main menu.
 
@@ -933,13 +1008,12 @@ HomeLayer::onDrawRune() + 0xac
 
 This path dereferences `account.shop`, then unconditionally reads the first
 product in shop category `9`, which is the rune workshop / badge product slot.
-An empty `shop.products` array parses successfully but leaves that category
-without a product object. The mock now includes one inert category `9` product
-in both the login account's `shop` object and `/api/client-secure/shop/info`:
+The Workshop itself reads two category `9` entries. Both the login account and
+`/api/client-secure/shop/info` return two sold-out offers with IDs 0 and 1:
 
 ```json
 {
-  "productId": 0,
+    "productId": 0,
   "category": 9,
   "priceType": 0,
   "price": 100,

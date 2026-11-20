@@ -121,6 +121,25 @@ def parse_root_image(data: bytes) -> dict[str, Any]:
     }
 
 
+def parse_subimage_frames(data: bytes, tail_offset: int) -> list[tuple[int, int, int, int]]:
+    """Read the default frames and skip localized overrides in an ACIES atlas."""
+    from decode_acies_game_data import Reader
+
+    reader = Reader(data)
+    reader.pos = tail_offset
+    frames = []
+    for _ in range(reader.read_length()):
+        x, y, width, height = struct.unpack("<hhhh", reader.take(8))
+        frames.append((x, y, x + width, y + height))
+        for _ in range(reader.read_length()):
+            for _ in range(reader.read_length()):
+                reader.read_string()
+            reader.take(8)
+    if reader.remaining:
+        raise ValueError(f"subimage table has {reader.remaining} trailing bytes")
+    return frames
+
+
 def decode_encoding(meta: dict[str, Any], encoding: dict[str, Any]) -> tuple[bytes, str]:
     try:
         import texture2ddecoder
@@ -143,8 +162,8 @@ def decode_encoding(meta: dict[str, Any], encoding: dict[str, Any]) -> tuple[byt
             raise ValueError(
                 f"ETC2 RGB8 level 0 needs {level_size} bytes, got {len(payload) - 1}"
             )
-        rgba = texture2ddecoder.decode_etc2(payload[1 : 1 + level_size], width, height)
-        return rgba, f"ETC2_RGB8 mip_levels={level_count}"
+        bgra = texture2ddecoder.decode_etc2(payload[1 : 1 + level_size], width, height)
+        return bgra_to_rgba(bgra), f"ETC2_RGB8 mip_levels={level_count}"
 
     if code == 7:
         if not payload:
@@ -155,8 +174,8 @@ def decode_encoding(meta: dict[str, Any], encoding: dict[str, Any]) -> tuple[byt
             raise ValueError(
                 f"ETC2 RGBA8 level 0 needs {level_size} bytes, got {len(payload) - 1}"
             )
-        rgba = texture2ddecoder.decode_etc2a8(payload[1 : 1 + level_size], width, height)
-        return rgba, f"ETC2_RGBA8 mip_levels={level_count}"
+        bgra = texture2ddecoder.decode_etc2a8(payload[1 : 1 + level_size], width, height)
+        return bgra_to_rgba(bgra), f"ETC2_RGBA8 mip_levels={level_count}"
 
     if code == 15:
         expected = width * height * 4
@@ -165,6 +184,12 @@ def decode_encoding(meta: dict[str, Any], encoding: dict[str, Any]) -> tuple[byt
         return payload, "RGBA8888"
 
     raise NotImplementedError(f"unsupported image encoding code {code}")
+
+
+def bgra_to_rgba(data: bytes) -> bytes:
+    rgba = bytearray(data)
+    rgba[0::4], rgba[2::4] = data[2::4], data[0::4]
+    return bytes(rgba)
 
 
 def write_png(rgba: bytes, width: int, height: int, output: pathlib.Path) -> None:

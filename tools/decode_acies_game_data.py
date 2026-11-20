@@ -86,12 +86,17 @@ class Reader:
         count = self.read_length()
         values: dict[str, str] = {}
         for _ in range(count):
-            values[self.read_string()] = self.read_string()
+            locale = self.read_string()
+            values[locale] = self.read_string()
         return values
 
     def read_fixed(self) -> dict[str, Any]:
         raw = self.read_i64()
         return {"raw": raw, "value": raw / FIXED_ONE}
+
+    def read_located_fixed(self) -> dict[str, Any]:
+        offset = self.pos
+        return {"offset": offset, **self.read_fixed()}
 
     def read_asset_index2(self) -> list[int]:
         return [self.read_u16(), self.read_u16()]
@@ -162,7 +167,8 @@ def compact_bytes(data: bytes) -> dict[str, Any]:
 def read_u8_array(r: Reader, dim: int) -> Any:
     count = r.read_length()
     if dim == 1:
-        return compact_bytes(r.take(count))
+        offset = r.pos
+        return {"offset": offset, **compact_bytes(r.take(count))}
     items = []
     for i in range(count):
         try:
@@ -398,8 +404,8 @@ def parse_ability_unit_entry(r: Reader) -> dict[str, Any]:
         return {
             "bytecode_groups": bytecode_groups,
             "target_refs": target_refs,
-            "min_value": r.read_fixed(),
-            "max_value": r.read_fixed(),
+            "min_value": r.read_located_fixed(),
+            "max_value": r.read_located_fixed(),
         }
 
     return annotate(r, "AbilityUnitData.Entry", body)
@@ -424,7 +430,7 @@ def parse_buff_data(r: Reader) -> dict[str, Any]:
         r,
         "BuffData",
         lambda: {
-            "duration": r.read_fixed(),
+            "duration": r.read_located_fixed(),
             "ability_unit": parse_ability_unit_data(r),
             "bytecode_groups": read_u8_array(r, 2),
         },
@@ -444,7 +450,7 @@ def parse_rune_data(r: Reader) -> dict[str, Any]:
             "byte0": r.read_u8(),
             "byte1": r.read_u8(),
             "byte2": r.read_u8(),
-            "raw_bytes": compact_bytes(r.take(r.read_length())),
+            "raw_bytes": read_u8_array(r, 1),
             "ability_unit": parse_ability_unit_data(r),
         }
 
@@ -526,10 +532,22 @@ def parse_skin_data(r: Reader) -> dict[str, Any]:
     return annotate(r, "SkinData", body)
 
 
+UNIT_BALANCE_COLUMNS = (
+    "population_cost",
+    "extra_units_per_batch",
+    "gold_cost",
+    "gas_cost",
+    "base_production_seconds",
+    "attack_type_id",
+    "armor_type_id",
+)
+
+
 def parse_unit_data(r: Reader) -> dict[str, Any]:
     def body() -> dict[str, Any]:
         name = r.read_locale_string()
         description = r.read_locale_string()
+        balance_start = r.pos
         byte0 = r.read_u8()
         byte1 = r.read_u8()
         byte2 = r.read_u8()
@@ -569,6 +587,15 @@ def parse_unit_data(r: Reader) -> dict[str, Any]:
             "short0": short0,
             "short1": short1,
             "short2": short2,
+            "balance_fields": {
+                "population_cost": {"value": byte7, "offset": balance_start + 9, "type": "u8"},
+                "extra_units_per_batch": {"value": byte8, "offset": balance_start + 10, "type": "u8"},
+                "gold_cost": {"value": short0 & 0xFFFF, "offset": balance_start + 11, "type": "u16le"},
+                "gas_cost": {"value": short1 & 0xFFFF, "offset": balance_start + 13, "type": "u16le"},
+                "base_production_seconds": {"value": short2 & 0xFFFF, "offset": balance_start + 15, "type": "u16le"},
+                "attack_type_id": {"value": (byte4 ^ 128) - 128, "offset": balance_start + 5, "type": "i8"},
+                "armor_type_id": {"value": (byte5 ^ 128) - 128, "offset": balance_start + 6, "type": "i8"},
+            },
             "byte9": byte9,
             "byte10": byte10,
             "fixed0": fixed0,
@@ -684,7 +711,7 @@ def parse_game_database(data: bytes) -> dict[str, Any]:
     def read_damage_matrix() -> dict[str, Any]:
         rows = []
         for _ in range(damage_types_a["count"]):
-            rows.append([r.read_fixed() for _ in range(damage_types_b["count"])])
+            rows.append([r.read_located_fixed() for _ in range(damage_types_b["count"])])
         return {"rows": damage_types_a["count"], "columns": damage_types_b["count"], "items": rows}
 
     damage_matrix = section(r, "damage_matrix", read_damage_matrix, sections)
@@ -739,6 +766,152 @@ def localized_name(value: dict[str, str] | None) -> str:
     return value.get("en") or value.get("ko") or next(iter(value.values()), "")
 
 
+ABILITY_OPERATIONS = ("set", "add", "subtract", "multiply", "divide", "min", "max")
+ABILITY_REGISTERS = ("result", "register_1", "register_2", "register_3")
+ABILITY_LEVEL_MODES = ("compound_multiplier", "linear_multiplier", "linear_addition")
+ABILITY_COMPARISONS = ("equal", "greater", "greater_or_equal", "less", "less_or_equal")
+CORE_ABILITY_ROLES = ("base_health", "additional_health", "vision", "attack_damage",
+                      "minimum_attack_range", "maximum_attack_range", "attack_speed", "movement_speed")
+
+
+def decode_ability_line(line: dict[str, Any]) -> dict[str, Any]:
+    """Decode the arithmetic instruction in AbilityData::value, if present."""
+    data = bytes.fromhex(line["hex"])
+    if not data:
+        return {"operation": "empty"}
+    if (data[0] == 1 and len(data) == 14 and data[10] == 0
+            and data[1] < len(ABILITY_REGISTERS) and data[11] < len(ABILITY_COMPARISONS)):
+        r = Reader(data)
+        r.take(2)
+        literal = r.read_located_fixed()
+        return {"operation": "compare_register", "destination": ABILITY_REGISTERS[data[1]],
+                "source": {"literal": literal}, "comparison": ABILITY_COMPARISONS[data[11]],
+                "else_line": struct.unpack_from("<H", data, 12)[0]}
+    if data[0] == 2 and len(data) >= 6:
+        r = Reader(data)
+        r.read_u8()
+        subject = "target" if r.read_bool() else "unit"
+        source_type = r.read_u8()
+        if source_type < len(ABILITY_REGISTERS) and r.remaining == 3:
+            source = {"register": ABILITY_REGISTERS[source_type]}
+        elif source_type == 4 and r.remaining == 11:
+            source = {"literal": r.read_located_fixed()}
+        else:
+            return {"operation": "opaque", "opcode": 2}
+        return {"operation": "compare_unit_state", "subject": subject, "source": source,
+                "predicate_id": r.read_u8(), "else_line": r.read_u16()}
+    if data[0] == 6 and len(data) == 7:
+        group, index, else_line = struct.unpack_from("<HHH", data, 1)
+        return {"operation": "branch_on_rune", "rune": [group, index], "else_line": else_line}
+    if data[0] == 7 and len(data) >= 27:
+        # UnitBase::matchLength counts optional values and variable-size lists.
+        filter_bytes = data[1:-2]
+        base = filter_bytes[2] * 5
+        if base + 15 < len(filter_bytes):
+            tail = base + (25 if filter_bytes[base + 15] else 16)
+            if tail + 7 < len(filter_bytes) and tail + 8 + filter_bytes[tail + 7] * 13 == len(filter_bytes):
+                return {"operation": "branch_on_target_match", "filter_hex": filter_bytes.hex(),
+                        "else_line": struct.unpack_from("<H", data, len(data) - 2)[0]}
+    if data[0] == 8 and len(data) == 5:
+        return {"operation": "compare_unit_property", "subject": "target" if data[1] else "unit",
+                "expected": struct.unpack_from("b", data, 2)[0], "else_line": struct.unpack_from("<H", data, 3)[0]}
+    if data[0] == 9 and len(data) == 16:
+        r = Reader(data)
+        r.read_u8()
+        subject = "target" if r.read_bool() else "unit"
+        index = r.read_asset_index2()
+        return {"operation": "check_unit_asset_condition", "subject": subject, "asset_index": index,
+                "source": {"literal": r.read_located_fixed()}, "else_line": r.read_u16()}
+    if data[0] == 10 and len(data) == 3:
+        return {"operation": "check_target_force", "else_line": struct.unpack_from("<H", data, 1)[0]}
+    if data[0] == 12 and len(data) == 2 and data[1] < len(ABILITY_REGISTERS):
+        return {"operation": "apply_damage_matrix", "destination": ABILITY_REGISTERS[data[1]]}
+    if data[0] == 13 and len(data) == 3:
+        return {"operation": "jump", "line": struct.unpack_from("<H", data, 1)[0]}
+    if data[0] != 0:
+        return {"operation": "opaque", "opcode": data[0]}
+
+    r = Reader(data)
+    try:
+        r.read_u8()
+        destination = ABILITY_REGISTERS[r.read_u8()]
+        source_type = r.read_u8()
+        if source_type <= 3:
+            source = {"register": ABILITY_REGISTERS[source_type]}
+        elif source_type == 4:
+            source = {"literal": r.read_located_fixed()}
+        elif source_type == 5:
+            source = {"level_table": [r.read_located_fixed() for _ in range(r.read_length())]}
+        else:
+            source = {"ability_of": {6: "unit", 7: "target", 8: "parent"}[source_type], "id": r.read_i16()}
+
+        modifier_type = r.read_u8()
+        modifier: dict[str, Any] = {}
+        if modifier_type == 1:
+            modifier = {"factor": r.read_located_fixed(), "mode": ABILITY_LEVEL_MODES[r.read_u8()]}
+        elif modifier_type in (2, 3, 4):
+            modifier = {"ability_of": {2: "unit", 3: "target", 4: "parent"}[modifier_type], "id": r.read_i16()}
+        elif modifier_type == 5:
+            modifier = {"modifier_type": 5, "source": "unit_metric"}
+        elif modifier_type in (6, 7):
+            modifier = {"asset_index": r.read_asset_index2(), "modifier_type": modifier_type}
+        elif modifier_type != 0:
+            return {"operation": "opaque", "opcode": 0}
+
+        operation = ABILITY_OPERATIONS[r.read_u8()]
+        if not r.remaining:
+            return {"operation": operation, "destination": destination, "source": source, "modifier": modifier}
+    except (ParseError, IndexError, KeyError):
+        pass
+    return {"operation": "opaque", "opcode": 0}
+
+
+def emit_ability_programs(parsed: dict[str, Any], stem: str, out_dir: pathlib.Path) -> None:
+    abilities = parsed["abilities"]["items"]
+    names = [localized_name(a["display"]["name"]) if a["display"] else "" for a in abilities]
+    roles = dict(zip(parsed["short_table"]["items"], CORE_ABILITY_ROLES))
+    rows = []
+
+    def append_program(kind: str, group: int | str, index: int, name: str,
+                       ability_id: int, entry: dict[str, Any]) -> None:
+        ability_name = names[ability_id] if 0 <= ability_id < len(names) else ""
+        for line_index, line in enumerate(entry["bytecode_groups"]["items"]):
+            instruction = decode_ability_line(line)
+            for field in (instruction.get("source", {}), instruction.get("modifier", {})):
+                for fixed in [field.get("literal"), field.get("factor"), *field.get("level_table", [])]:
+                    if fixed is not None:
+                        fixed["offset"] += line["offset"]
+            source = instruction.get("source", {})
+            literal = source.get("literal", {})
+            rows.append([
+                kind, group, index, name, ability_id, ability_name, roles.get(ability_id, ""),
+                line_index, line["offset"],
+                instruction["operation"], instruction.get("destination", ""),
+                literal.get("value", ""), literal.get("offset", ""),
+                json.dumps(instruction, ensure_ascii=False),
+                json.dumps(entry.get("target_refs", {}).get("items", [])),
+                entry.get("min_value", {}).get("value", ""), entry.get("min_value", {}).get("offset", ""),
+                entry.get("max_value", {}).get("value", ""), entry.get("max_value", {}).get("offset", ""),
+                line["hex"],
+            ])
+
+    for ability_id, ability in enumerate(abilities):
+        append_program("global", "", ability_id, names[ability_id], ability_id, ability)
+
+    for kind in ("units", "runes", "buffs"):
+        for group_index, group in enumerate(parsed[kind]["items"]):
+            for index, record in enumerate(group["items"]):
+                for entry in record["ability_unit"]["entries"]["items"]:
+                    append_program(kind, group_index, index, localized_name(record.get("name")),
+                                   entry["key"], entry["value"])
+
+    write_csv(out_dir / f"{stem}.ability-programs.csv", [
+        "kind", "group", "index", "name", "ability_id", "ability_name", "core_role", "line", "line_offset",
+        "operation", "destination", "literal", "literal_offset", "instruction", "target_refs",
+        "lower_bound", "lower_bound_offset", "upper_bound", "upper_bound_offset", "hex",
+    ], rows)
+
+
 def emit_csvs(parsed: dict[str, Any], stem: str, out_dir: pathlib.Path) -> None:
     write_csv(
         out_dir / f"{stem}.sections.csv",
@@ -763,14 +936,39 @@ def emit_csvs(parsed: dict[str, Any], stem: str, out_dir: pathlib.Path) -> None:
     unit_rows = []
     for group_i, group in enumerate(parsed["units"]["items"]):
         for unit_i, unit in enumerate(group["items"]):
-            unit_rows.append([group_i, unit_i, unit["_offset"], unit["_size"], localized_name(unit["name"])])
-    write_csv(out_dir / f"{stem}.units.csv", ["group", "index", "offset", "size", "name"], unit_rows)
+            row = [group_i, unit_i, unit["_offset"], unit["_size"], localized_name(unit["name"])]
+            for field in UNIT_BALANCE_COLUMNS:
+                info = unit["balance_fields"][field]
+                row.extend((info["value"], info["offset"]))
+            unit_rows.append(row)
+    unit_header = ["group", "index", "offset", "size", "name"]
+    for field in UNIT_BALANCE_COLUMNS:
+        unit_header.extend((field, f"{field}_offset"))
+    write_csv(out_dir / f"{stem}.units.csv", unit_header, unit_rows)
 
     rune_rows = []
     for group_i, group in enumerate(parsed["runes"]["items"]):
         for rune_i, rune in enumerate(group["items"]):
-            rune_rows.append([group_i, rune_i, rune["_offset"], rune["_size"], localized_name(rune["name"])])
-    write_csv(out_dir / f"{stem}.runes.csv", ["group", "index", "offset", "size", "name"], rune_rows)
+            match = rune["raw_bytes"]
+            rune_rows.append([group_i, rune_i, rune["_offset"], rune["_size"], localized_name(rune["name"]),
+                              localized_name(rune["description"]), match["offset"], match["hex"]])
+    write_csv(out_dir / f"{stem}.runes.csv", ["group", "index", "offset", "size", "name", "description",
+                                             "target_filter_offset", "target_filter_hex"], rune_rows)
+    emit_ability_programs(parsed, stem, out_dir)
+
+    attack_types = parsed["damage_types_a"]["items"]
+    armor_types = parsed["damage_types_b"]["items"]
+    write_csv(out_dir / f"{stem}.damage-matrix.csv", ["attack", "armor", "multiplier", "raw", "offset"], [
+        [localized_name(attack_types[i]["name"]), localized_name(armor_types[j]["name"]),
+         cell["value"], cell["raw"], cell["offset"]]
+        for i, row in enumerate(parsed["damage_matrix"]["items"])
+        for j, cell in enumerate(row)
+    ])
+    write_csv(out_dir / f"{stem}.buffs.csv", ["group", "index", "duration", "duration_offset"], [
+        [group_index, index, buff["duration"]["value"], buff["duration"]["offset"]]
+        for group_index, group in enumerate(parsed["buffs"]["items"])
+        for index, buff in enumerate(group["items"])
+    ])
 
 
 def summary(parsed: dict[str, Any], path: pathlib.Path, layers: list[str]) -> dict[str, Any]:

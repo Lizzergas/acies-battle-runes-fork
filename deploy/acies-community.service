@@ -1,0 +1,26 @@
+[Unit]
+Description=ACIES community API and battle gateway
+After=network.target
+
+[Service]
+Type=simple
+User=acies
+Group=acies
+WorkingDirectory=/opt/acies
+StateDirectory=acies
+StateDirectoryMode=0700
+EnvironmentFile=/etc/acies/community.env
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/usr/bin/python3 /opt/acies/tools/acies_mock_server.py --host 127.0.0.1 --port 8080 --pvp-port 9090 --community-db /var/lib/acies/community.sqlite3 --admission-url ${ACIES_ORIGIN} --trusted-proxy $ACIES_FLAGS
+Restart=on-failure
+RestartSec=3
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+PrivateDevices=yes
+ProtectHome=yes
+ProtectSystem=strict
+RestrictAddressFamilies=AF_UNIX AF_INET
+
+[Install]
+WantedBy=multi-user.target

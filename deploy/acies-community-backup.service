@@ -1,0 +1,15 @@
+[Unit]
+Description=Back up the ACIES community database
+
+[Service]
+Type=oneshot
+User=acies
+Group=acies
+StateDirectory=acies
+StateDirectoryMode=0700
+UMask=0077
+ExecStart=/bin/sh -ec 'mkdir -p /var/lib/acies/backups; /usr/bin/python3 /opt/acies/tools/acies_accounts.py /var/lib/acies/community.sqlite3 backup "/var/lib/acies/backups/community-$(date -u +%%Y-%%m-%%dT%%H%%M%%SZ).sqlite3"; find /var/lib/acies/backups -maxdepth 1 -type f -name "community-*.sqlite3" -mtime +13 -delete'
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict

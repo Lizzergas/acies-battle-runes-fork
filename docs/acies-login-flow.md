@@ -365,6 +365,10 @@ LobbyLayer(LobbyTutorialState=1, LobbyPage=0)
 If `dayChanged` was true in the login response, it then calls
 `LobbyGateway::requestLoginAttain()`.
 
+The [tutorial analysis](acies-tutorials.md) lists the campaign entries,
+the in-context categories, and the account levels and steps that unlock
+features in the shipped client.
+
 ## Local Mock Status
 
 `tools/acies_mock_server.py --guest-success` now returns local success payloads

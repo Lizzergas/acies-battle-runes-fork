@@ -4,9 +4,8 @@
 This is a static reader for the native map payload consumed by
 Map::Map(AssetIndex4 const&, CSBuffer*, ...).  It reuses the CDK XMF decrypt
 layer, the CSRootImage parser, and field order recovered from libcdkapp.so.
-The trigger program is intentionally kept as raw nested byte arrays for now;
-that bytecode is interpreted by the Map::mt* functions rather than by CDK3's
-generic trigger editor.
+Trigger instructions are indexed using the native dispatch table. Known
+operands are decoded alongside the original byte arrays.
 """
 
 from __future__ import annotations
@@ -29,11 +28,186 @@ from decode_acies_game_data import (  # noqa: E402
     decode_xmf,
     read_obj_array,
     read_u8_array,
+    write_csv,
 )
 from decode_cdk_image import parse_root_image  # noqa: E402
 
 
 DEFAULT_OUT_DIR = pathlib.Path("decrypts/maps")
+
+# Map::updateSetting jump table at 0x3B1FA6 in the supported ARM64 library.
+TRIGGER_NAMES = (
+    "melee_start", "melee_play", "has_force", "call", "value", "compare_value",
+    "resource", "supply", "max_supply", "has_resource", "has_population", "has_rune",
+    "set_force_point", "appear", "destroy_units", "is_alive", "is_destroyed", "is_target",
+    "is_encountered", "command", "transform", "buff", "spell", "player", "unit", "revise",
+    "warp", "vision", "state", "activate", "effect", "remove_effect", "timer", "is_timeout",
+    "show_timer", "speech", "speech_bubble", "scroll", "zoom", "event", "color", "sound",
+    "announce", "vibrate", "message", "mission", "control", "attach", "growup", "attain",
+    "select", "is_selected", "action", "action_finish", "animation", "level", "wait", "stop",
+    "skip_ready", "is_skipped", "analysis", "vendor",
+)
+
+
+def read_trigger_integer(r: Reader, wide: bool = False) -> dict[str, Any]:
+    def literal() -> dict[str, int]:
+        offset = r.pos
+        value = r.read_i16() if wide else struct.unpack("b", r.take(1))[0]
+        return {"value": value, "offset": offset, "size": 2 if wide else 1}
+
+    mode = r.read_u8()
+    if mode == 0:
+        return {"literal": literal()}
+    if mode == 1:
+        return {"variable": r.read_i16()}
+    if mode == 2:
+        return {"random_range": [literal(), literal()]}
+    if mode == 3:
+        values = [literal() for _ in range(r.read_length())]
+        return {"lookup": values, "variable": r.read_i16()}
+    raise ParseError(f"unknown trigger integer mode {mode}")
+
+
+def read_trigger_forces(r: Reader) -> dict[str, Any]:
+    mode = r.read_u8()
+    if mode == 0:
+        return {"all": True}
+    if mode == 1:
+        return {"group": read_trigger_integer(r)}
+    if mode == 2:
+        return {"slots": [read_trigger_integer(r) for _ in range(r.read_length())]}
+    raise ParseError(f"unknown force selector {mode}")
+
+
+def read_trigger_fixed(r: Reader) -> dict[str, Any]:
+    mode = r.read_u8()
+    if mode == 0:
+        return {"literal": r.read_located_fixed()}
+    if mode == 1:
+        return {"variable": r.read_i16()}
+    if mode == 2:
+        return {"random_range": [r.read_located_fixed(), r.read_located_fixed()]}
+    if mode == 3:
+        return {"lookup": [r.read_located_fixed() for _ in range(r.read_length())], "variable": r.read_i16()}
+    raise ParseError(f"unmapped trigger fixed-point mode {mode}")
+
+
+def decode_trigger_operands(opcode: int, r: Reader) -> dict[str, Any] | None:
+    if opcode in (4, 5):
+        values = {"variable": r.read_i16(), "value": read_trigger_fixed(r)}
+        if opcode == 4:
+            values["operation"] = r.read_u8()
+        else:
+            values.update(comparison=r.read_u8(), jump_line=r.read_u16(), yield_if_matched=r.read_bool())
+        return values
+    if opcode in (6, 7, 8):
+        forces = read_trigger_forces(r)
+        if opcode == 6:
+            resource_id = r.read_u8()
+            return {"forces": forces, "resource_id": resource_id, "delta": read_trigger_integer(r, wide=True)}
+        return {"forces": forces, "delta" if opcode == 7 else "limit": read_trigger_integer(r, wide=True)}
+    if opcode in (23, 39, 46):
+        values = {"forces": read_trigger_forces(r)}
+        if opcode in (39, 46):
+            values["force_filter"] = r.read_u8()
+        values["mode"] = r.read_u8()
+        if opcode == 46:
+            values["control_state"] = r.read_u8()
+        if r.remaining:
+            values["unmapped_hex"] = r.take(r.remaining).hex()
+        return values
+    if opcode == 41:
+        values = {"forces": read_trigger_forces(r), "enabled_for_forces": r.read_bool()}
+        mode = r.read_u8()
+        if mode in (0, 2):
+            return {
+                **values, "action": "play_music" if mode == 0 else "play_effect",
+                "sounds": [r.read_asset_index3() for _ in range(r.read_length())],
+                "volume": r.read_f32(),
+            }
+        if mode == 1:
+            return {**values, "action": "stop_music"}
+        if mode in (3, 4):
+            return {**values, "action": "set_effects" if mode == 3 else "set_voices", "enabled": r.read_bool()}
+    if opcode in (42, 43, 45):
+        values = {"forces": read_trigger_forces(r), "force_filter": r.read_u8()}
+        if opcode in (42, 43):
+            values["announce_id" if opcode == 42 else "vibration_id"] = r.read_u8()
+            return values
+        values["mission_id"] = r.read_u8()
+        values["action"] = "upsert" if r.read_bool() else "remove"
+        if values["action"] == "upsert":
+            values["title_id"] = r.read_u8()
+            if r.read_bool():
+                values["text_ref"] = r.read_asset_index2()
+            else:
+                values["text"] = r.read_locale_string()
+            values["text_argument_ids"] = [r.read_i16() for _ in range(r.read_length())]
+            values["position"] = read_vector2(r)
+            values["size"] = read_vector2(r)
+            values["flags"] = [r.read_bool(), r.read_bool()]
+            values["mode"] = struct.unpack("b", r.take(1))[0]
+            values["parameter"] = r.read_f32()
+        return values
+    if opcode in (29, 58):
+        return {"enabled": r.read_bool()}
+    if opcode == 31:
+        return {"effect_id": r.read_u8(), "immediate": r.read_bool()}
+    if opcode == 32:
+        timer = read_trigger_integer(r)
+        mode = r.read_u8()
+        if mode in (0, 1):
+            return {"timer": timer, "mode": mode, "duration": read_trigger_fixed(r), "flag": r.read_bool()}
+        if mode in (2, 3):
+            return {"timer": timer, "mode": mode}
+    if opcode == 55:
+        return {"level": r.read_i16(), "comparison": r.read_u8(), "jump_line": r.read_u16()}
+    if opcode == 56:
+        return {"skip_sensitive": r.read_bool(), "seconds": r.read_located_fixed()}
+    if opcode == 57:
+        return {"jump_line": r.read_u16(), "yield": r.read_bool()}
+    if opcode == 59:
+        return {"jump_line": r.read_u16()}
+    if opcode == 60:
+        return {"tutorial_event": r.read_i16()}
+    if opcode == 61:
+        return {"vendor_flag": r.read_bool(), "jump_line": r.read_u16()}
+    return None
+
+
+def relocate_trigger_operands(value: Any, base: int) -> None:
+    if isinstance(value, dict):
+        if "offset" in value:
+            value["offset"] += base
+        for item in value.values():
+            relocate_trigger_operands(item, base)
+    elif isinstance(value, list):
+        for item in value:
+            relocate_trigger_operands(item, base)
+
+
+def index_triggers(bytecode: dict[str, Any]) -> list[dict[str, Any]]:
+    rows = []
+    for group_index, group in enumerate(bytecode["items"]):
+        for line_index, line in enumerate(group["items"]):
+            r = Reader(bytes.fromhex(line["hex"]))
+            if not r.remaining:
+                continue
+            opcode = r.read_u8()
+            operands = None
+            try:
+                operands = decode_trigger_operands(opcode, r)
+            except (ParseError, UnicodeDecodeError):
+                pass
+            if r.remaining:
+                operands = None
+            relocate_trigger_operands(operands, line["offset"])
+            rows.append({
+                "group": group_index, "line": line_index, "offset": line["offset"], "opcode": opcode,
+                "name": TRIGGER_NAMES[opcode] if opcode < len(TRIGGER_NAMES) else "unknown",
+                "operands": operands, "hex": line["hex"],
+            })
+    return rows
 
 
 def offset_obj(start: int, end: int, values: dict[str, Any]) -> dict[str, Any]:
@@ -532,6 +706,7 @@ def parse_map(data: bytes, source: pathlib.Path, layers: list[str], selected_blo
     item["areas"] = read_obj_array(r, 1, parse_area)
     item["camera"] = parse_camera(r)
     item["trigger_bytecode"] = read_u8_array(r, 3)
+    item["triggers"] = index_triggers(item["trigger_bytecode"])
     item["remaining"] = r.remaining
     if r.remaining:
         item["trailing"] = compact_bytes(r.take(r.remaining))
@@ -566,21 +741,27 @@ def write_outputs(parsed: dict[str, Any], decoded: bytes, source: pathlib.Path, 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("path", type=pathlib.Path)
+    parser.add_argument("paths", nargs="+", type=pathlib.Path)
     parser.add_argument("--asset-root", type=pathlib.Path, default=ASSET_ROOT)
     parser.add_argument("--out-dir", type=pathlib.Path, default=DEFAULT_OUT_DIR)
     parser.add_argument("--selected-block", type=int, default=0)
     args = parser.parse_args()
 
-    decoded, layers = decode_xmf(args.path, args.asset_root)
-    parsed = parse_map(decoded, args.path, layers, args.selected_block)
-    write_outputs(parsed, decoded, args.path, args.out_dir)
-    print(
-        f"{args.path}: decoded={len(decoded)} remaining={parsed['remaining']} "
-        f"terrain={parsed['terrain']['width']}x{parsed['terrain']['height']} "
-        f"tiles={parsed['tiles']['count']} triggers={parsed['trigger_bytecode']['count']} "
-        f"-> {args.out_dir}"
-    )
+    columns = ["group", "line", "offset", "opcode", "name", "operands", "hex"]
+    rows = []
+    for path in args.paths:
+        decoded, layers = decode_xmf(path, args.asset_root)
+        parsed = parse_map(decoded, path, layers, args.selected_block)
+        write_outputs(parsed, decoded, path, args.out_dir)
+        for trigger in parsed["triggers"]:
+            row = {**trigger, "operands": json.dumps(trigger["operands"], ensure_ascii=False)}
+            rows.append([path.name, *(row[column] for column in columns)])
+        print(
+            f"{path}: decoded={len(decoded)} remaining={parsed['remaining']} "
+            f"terrain={parsed['terrain']['width']}x{parsed['terrain']['height']} "
+            f"tiles={parsed['tiles']['count']} triggers={len(parsed['triggers'])} -> {args.out_dir}"
+        )
+    write_csv(args.out_dir / "triggers.csv", ["map", *columns], rows)
     return 0
 
 

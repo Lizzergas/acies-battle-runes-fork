@@ -4,55 +4,71 @@
   "layers": [
     "plain/unknown"
   ],
-  "remaining": 1598490,
-  "parse_errors": [
-    {
-      "path": "3/8/0",
-      "dim": 1,
-      "start": 8469911,
-      "offset": 8472455,
-      "message": "unknown CSMovement type 34 at offset 8472454",
-      "next_hex": "c20000aac200000000050043110100152603050007000000000000003f00007ac200000000050200000000000000000000000000000000151603050007000d00"
-    }
-  ],
-  "animation_count_recursive": 15740,
+  "remaining": 0,
+  "parse_errors": [],
+  "animation_count_recursive": 20751,
   "substance_counts": {
-    "sprite": 8053,
-    "none": 3029,
-    "particle": 4453,
-    "trail": 205
+    "sprite": 9237,
+    "none": 4179,
+    "particle": 6974,
+    "trail": 323,
+    "model": 21,
+    "chain": 17
   },
   "derivation_counts": {
-    "multi": 5298,
-    "none": 10212,
-    "linked": 170,
-    "random": 16,
-    "emission": 44
+    "multi": 6905,
+    "none": 13480,
+    "linked": 275,
+    "random": 33,
+    "emission": 58
   },
   "top_level_counts": [
     7
   ],
-  "first_level_parsed": 4,
+  "first_level_parsed": 7,
   "groups": [
     {
       "index": 0,
       "count": 21,
-      "parsed_count": 21
+      "parsed_count": 21,
+      "animations": 943
     },
     {
       "index": 1,
       "count": 72,
-      "parsed_count": 72
+      "parsed_count": 72,
+      "animations": 257
     },
     {
       "index": 2,
       "count": 21,
-      "parsed_count": 21
+      "parsed_count": 21,
+      "animations": 122
     },
     {
       "index": 3,
       "count": 19,
-      "parsed_count": 9
+      "parsed_count": 19,
+      "animations": 334
+    },
+    {
+      "index": 4,
+      "count": 6,
+      "parsed_count": 6,
+      "animations": 259
+    },
+    {
+      "index": 5,
+      "count": 3,
+      "parsed_count": 3,
+      "animations": 43
+    },
+    {
+      "index": 6,
+      "count": 2,
+      "parsed_count": 2,
+      "animations": 4
     }
-  ]
+  ],
+  "animation_count_top_level": 1962
 }

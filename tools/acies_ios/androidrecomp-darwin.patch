@@ -1,0 +1,58 @@
+--- a/runtime/shim.cpp
++++ b/runtime/shim.cpp
+@@ -1,5 +1,5 @@
+-#if defined(_WIN32)
+-#include <malloc.h>
++#if defined(__APPLE__)
++#include <malloc/malloc.h>
+ #else
+ #include <malloc.h>
+ #endif
+@@ -291,7 +291,11 @@
+ #if defined(_WIN32)
+   const size_t had = p ? _msize(p) : 0;
+ #else
++#if defined(__APPLE__)
++  const size_t had = p ? malloc_size(p) : 0;
++#else
+   const size_t had = p ? malloc_usable_size(p) : 0;
++#endif
+ #endif
+   void* q = realloc(p, n);
+   if (q && n > had) memset(static_cast<char*>(q) + had, 0, n - had);
+--- a/runtime/shim_sys.cpp
++++ b/runtime/shim_sys.cpp
+@@ -40,9 +40,12 @@
+ #include <windows.h>
+ #else
+ #include <arpa/inet.h>
++#if !defined(__APPLE__)
+ #include <link.h>
++#endif
+ #include <netdb.h>
+ #include <netinet/in.h>
++#include <poll.h>
+ #include <sys/socket.h>
+ #include <unistd.h>
+ #endif
+--- a/tools/arc_host.cpp
++++ b/tools/arc_host.cpp
+@@ -250,17 +250,7 @@
+     }
+   }
+
+-  if (!image.Protect(&err)) {
+-    fprintf(stderr, "protect failed: %s\n", err.c_str());
+-    return 1;
+-  }
+-
+-#if defined(__aarch64__) || defined(_M_ARM64)
+-  printf("\narm64 host: image is executable once the work list is empty.\n");
+-#else
+-  printf("\nx86-64 host: image loaded and relocated but not executable here;\n"
+-         "             running it needs a lifter.\n");
+-#endif
++  printf("\nread-only triage: stopped before marking pages executable.\n");
+
+   if (want_window) {
+     // Calling the engine's render path needs a JNIEnv to hand it, which is a

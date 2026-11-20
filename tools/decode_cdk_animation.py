@@ -311,14 +311,17 @@ def read_particle(r: Reader) -> dict[str, Any]:
 
 def read_trail_like(r: Reader, kind: str) -> dict[str, Any]:
     def body() -> dict[str, Any]:
-        return {
+        trail = kind == "CSTrail"
+        result = {
             "blend_mode": r.read_u8(),
             "sources": read_u16_array(r, 2),
             "material": read_material(r),
-            "flags": [r.read_bool(), r.read_bool(), r.read_bool()],
+            "flags": [r.read_bool() for _ in range(3 if trail else 2)],
             "distance": r.read_f32(),
-            "emission_life": r.read_f32(),
-            "emission_smoothness": r.read_f32(),
+        }
+        if trail:
+            result.update(emission_life=r.read_f32(), emission_smoothness=r.read_f32())
+        result.update({
             "repeat_scale": r.read_f32(),
             "color_duration": r.read_f32(),
             "color_loop": read_loop(r),
@@ -326,7 +329,8 @@ def read_trail_like(r: Reader, kind: str) -> dict[str, Any]:
             "color_each": r.read_bool(),
             "rotation": r.read_f32(),
             "rotation_loop": read_loop(r),
-        }
+        })
+        return result
 
     return annotated(r, kind, body)
 
@@ -336,9 +340,9 @@ def read_mesh_material(r: Reader) -> dict[str, Any]:
     return {
         "_type": "CSMeshMaterial",
         "_offset": start,
-        # Old CSMeshMaterial stores a CSMaterial plus a small mode byte in this build.
         "material": read_material(r),
-        "mode": r.read_u8(),
+        "flag": r.read_bool(),
+        "indices": read_u16_array(r, 1),
         "_end": r.pos,
     }
 
@@ -515,12 +519,20 @@ def main() -> None:
     ap.add_argument("input", type=pathlib.Path)
     ap.add_argument("--asset-root", type=pathlib.Path, default=ASSET_ROOT)
     ap.add_argument("--output", type=pathlib.Path, required=True)
+    ap.add_argument("--summary", action="store_true", help="Write counts and parse status without the animation tree")
     args = ap.parse_args()
 
     data, layers = decode_xmf(args.input, args.asset_root)
     parsed = parse_animations(data, str(args.input), layers)
+    if args.summary:
+        tree = parsed.pop("animations")
+        groups = [{"index": index, "count": group["count"], "parsed_count": len(group["items"]),
+                   "animations": sum(len(category["items"]) for category in group["items"])}
+                  for index, group in enumerate(tree["items"])]
+        parsed.update(top_level_counts=[tree["count"]], first_level_parsed=len(groups), groups=groups,
+                      animation_count_top_level=sum(group["animations"] for group in groups))
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(parsed, ensure_ascii=False, indent=2), encoding="utf-8")
+    args.output.write_text(json.dumps(parsed, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(
         f"animations: recursive={parsed['animation_count_recursive']} "
         f"remaining={parsed['remaining']} substances={parsed['substance_counts']}"
