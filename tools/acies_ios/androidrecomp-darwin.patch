@@ -8,18 +8,52 @@
  #else
  #include <malloc.h>
  #endif
-@@ -291,7 +291,11 @@
+@@ -290,8 +290,12 @@ void* ArcRealloc(void* p, size_t n) {
+   // zeroed: realloc's contract is that everything up to the old size survives.
  #if defined(_WIN32)
    const size_t had = p ? _msize(p) : 0;
- #else
++#else
 +#if defined(__APPLE__)
 +  const size_t had = p ? malloc_size(p) : 0;
-+#else
+ #else
    const size_t had = p ? malloc_usable_size(p) : 0;
 +#endif
  #endif
    void* q = realloc(p, n);
    if (q && n > had) memset(static_cast<char*>(q) + had, 0, n - had);
+--- a/runtime/shim_pthread.cpp
++++ b/runtime/shim_pthread.cpp
+@@ -50,6 +50,19 @@ namespace {
+ std::mutex g_registry;
+ uint32_t g_next_id = 1;
+
++// Bionic's static initializers are not all zero. A mutex word holding only
++// type bits (PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP is 0x4000, the
++// error-checking one 0x8000) has never been created either. ACIES builds every
++// recursive CSLock that way, so treating 0x4000 as an id left the engine's
++// task locks unlocked and let two threads release the same object.
++bool Unclaimed(uint32_t value) { return (value & ~UINT32_C(0xC000)) == 0; }
++
++uint32_t NextId() {
++  uint32_t id;
++  do id = g_next_id++; while (Unclaimed(id));
++  return id;
++}
++
+ template <typename T>
+ struct Registry {
+   // std::map, not unordered_map: references to elements stay valid across
+@@ -59,8 +72,8 @@ struct Registry {
+
+   T* Obtain(uint32_t* slot) {
+     std::lock_guard<std::mutex> g(g_registry);
+-    if (*slot == 0) {
+-      *slot = g_next_id++;
++    if (Unclaimed(*slot)) {
++      *slot = NextId();
+       items[*slot] = std::make_unique<T>();
+     }
+     auto it = items.find(*slot);
 --- a/runtime/shim_sys.cpp
 +++ b/runtime/shim_sys.cpp
 @@ -40,9 +40,12 @@
@@ -37,7 +71,7 @@
  #endif
 --- a/tools/arc_host.cpp
 +++ b/tools/arc_host.cpp
-@@ -250,17 +250,7 @@
+@@ -250,17 +250,7 @@ int main(int argc, char** argv) {
      }
    }
 

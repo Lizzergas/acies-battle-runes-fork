@@ -88,17 +88,39 @@ stack frames and ownership information if the invalid free recurs.
 [Local iPhone battlefield](../captures/ios-port-research/one-v-one/ios-live-build.png) ·
 [Local Android battlefield](../captures/ios-port-research/one-v-one/android-live-game.png)
 
-The next 1v1 should confirm that each phone issues an order and that both
-clients apply the resulting commands. Bring units into combat and record a
-30-second iPhone frame-pacing sample during play. Verify complementary
-results on the phones and the corresponding rows in both guest databases.
-Repeat match startup to check for the allocator abort.
+### Allocator crash fix and completed match
+
+Both iPhone crashes ran inside `CSTask::operator()`. The first was an invalid
+free in `CSArray<unsigned short>::~CSArray` after `CSObject::release`. The second
+was free-list corruption in the next `operator new` after Fireball. The cause
+was in the runtime's pthread shim. `CSLock(true)` stores Bionic's
+`PTHREAD_RECURSIVE_MUTEX_INITIALIZER` (`0x4000`) in place, then calls
+`pthread_mutex_lock` directly. The shim's registry treated any nonzero word as
+an existing id, so every recursive `CSLock` either did nothing or shared one
+unrelated mutex. The Darwin patch now treats words that hold only Bionic type
+bits as uncreated and never issues those values as ids.
+[Darwin patch](../tools/acies_ios/androidrecomp-darwin.patch)
+
+On November 21, 2026, a build prepared from the APK with
+`prepare-ios-lift.sh` ran a full match on iPhoneW against the OnePlus N100.
+Both phones built refineries. The iPhone cast Fireball twice without a fault
+and held 60 fps over a 1,800-frame sample. Android surrendered at 04:59. The
+iPhone showed WIN and Android LOSE. Both seats reported results for local
+match 1795216338, and the guest databases recorded outcome 1 for the iPhone
+guest and outcome 2 for the Android guest.
+[Local iPhone result](../captures/ios-port-research/build-verification/run.WwTl1GEu/fixed-ios-win.png) ·
+[Local Android result](../captures/ios-port-research/build-verification/run.WwTl1GEu/fixed-android-lose.png)
 
 ## Community account iPhone variant
 
 A separate unsigned build adds Sign In, Sign Up, and Keychain-backed Continue.
 The macOS fixture verified registration, sign-in, session restoration, and
 admission and login in the translated client against a local account service.
-The signed iPhone needs its own account test. The community gateway also
+On November 21, 2026, a signed iPhoneW build passed Sign up, Sign in, and
+Continue (saved session) against a LAN account server reached over HTTPS with
+a pinned private test CA. The Mac's tailnet policy does not accept connections
+from the tagged iPhones, so the Tailscale origin was not reachable. Each flow
+created a server session and handed it to the translated client. A new account
+entered the campaign intro. The community gateway also
 needs a trusted TLS connection for the original client's TCP traffic. The
 physical LAN match used guest profiles and direct private TCP.

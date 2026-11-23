@@ -29,7 +29,8 @@ if not 0 <= int(gateway) <= 65535 or 0 < int(gateway) < 1024:
     raise SystemExit("Local gateway port must be zero or an unprivileged port.")
 PY
 
-build=$(mktemp -d "$work/ios-build.XXXXXXXX")
+build=$(mktemp -d "${TMPDIR:-/tmp}/acies-community-ios.XXXXXXXX")
+trap 'rm -rf -- "$build"' EXIT
 arc=$(find "$base" -maxdepth 1 -type d -name 'androidrecomp-*' | head -n 1)
 sdk=$(xcrun --sdk iphoneos --show-sdk-path)
 flags=(-std=c++17 -O2 -target arm64-apple-ios17.0 -isysroot "$sdk"
@@ -62,8 +63,8 @@ for name in local-community-transport community-gateway-mode; do
     compile "$work/$name.cpp" "$name" & pids+=("$!")
 done
 compile "$build/community-game-main.mm" community-game-main -fobjc-arc & pids+=("$!")
-xcrun --sdk iphoneos clang -std=c11 -O2 -target arm64-apple-ios17.0 -isysroot "$sdk" \
-    -I"$work" -I"$base" -I"$base/full-image" -c "$build/lifted_028-community.c" \
+xcrun --sdk iphoneos clang -std=c11 -O2 -DARC_FRAMES -target arm64-apple-ios17.0 -isysroot "$sdk" \
+    -I"$work" -I"$base/full-image" -I"$arc/runtime" -c "$build/lifted_028-community.c" \
     -o "$build/lifted_028-community.o" & pids+=("$!")
 for pid in "${pids[@]}"; do wait "$pid"; done
 
@@ -80,6 +81,11 @@ mkdir -p "$app"
 cp "$build/AciesCommunityProbe" "$app/"
 cp "$base/engine-input/"{libcdkapp.so,libc++_shared.so} "$app/"
 cp -R "$apk/assets" "$app/game-assets"
+# Lab builds may pin a private test CA for a LAN origin, like the Android
+# --ca-cert option. Leave ACIES_COMMUNITY_TEST_CA unset for system trust.
+if [[ -n "${ACIES_COMMUNITY_TEST_CA:-}" ]]; then
+    openssl x509 -in "$ACIES_COMMUNITY_TEST_CA" -outform der -out "$app/community-test-ca.der"
+fi
 python3 - "$app/Info.plist" "$origin" "$bundle_id" "$fixture" "$gateway_port" <<'PY'
 import plistlib
 import sys

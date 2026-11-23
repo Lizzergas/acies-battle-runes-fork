@@ -26,4 +26,11 @@ typedef void (^AciesCommunityResult)(AciesCommunitySession* _Nullable, NSError* 
 - (void)resume:(NSString*)bearer completion:(AciesCommunityResult)completion;
 @end
 
+// Server trust for account and game HTTPS requests. Uses system trust unless a
+// lab build bundled community-test-ca.der, in which case only that CA anchors
+// the chain. Host name validation still applies either way.
+void AciesCommunityEvaluateTrust(NSURLAuthenticationChallenge* challenge,
+                                 void (^completion)(NSURLSessionAuthChallengeDisposition,
+                                                    NSURLCredential* _Nullable));
+
 NS_ASSUME_NONNULL_END

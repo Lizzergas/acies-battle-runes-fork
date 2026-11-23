@@ -20,5 +20,5 @@ xcrun clang++ -std=c++17 -O2 -DACIES_MAC_ANGLE -DARC_HAVE_ZLIB -DACIES_LOCAL_ADM
     "$graphics"/{gles-floats,font-bridge}.cpp "$crypto"/{account-bridge,crypto-bridge}.cpp \
     local-community-transport.cpp community-{auth,probe,native-http}-macos.o \
     "$mac/libandroidrecomp.a" "$objects"/*.o \
-    -framework Foundation -framework CoreText -framework CoreGraphics -framework CoreFoundation -lz \
+    -framework Foundation -framework Security -framework CoreText -framework CoreGraphics -framework CoreFoundation -lz \
     -o acies-community-game-macos

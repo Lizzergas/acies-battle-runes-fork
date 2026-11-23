@@ -14,12 +14,30 @@ The build scripts expect a prepared AOT directory containing:
 - `libacies-lifted-iphoneos.a` and `arc-ios/libandroidrecomp.a`, built for
   iPhoneOS arm64. The Mac probes use the separate `arc-macos-boot/` build.
 
-Use [androidrecomp at 4a200495](https://github.com/sp00nznet/androidrecomp/tree/4a2004953e396fca04e940c300cad7c9f5fa77f3)
-with the [Darwin patch](androidrecomp-darwin.patch). Generate the lifted
-sources with its `tools/lifter.py`, passing both ELF inputs in engine,
-C++ runtime order and `--out "$LIFT/full-image" --shards 128`. The community
-prototype currently expects this shard layout. The JNI and zlib host adapters
-are adapted from androidrecomp under the [MIT license](LICENSE.androidrecomp).
+Prepare that directory from the APK with one command. It downloads
+[androidrecomp at 4a200495](https://github.com/sp00nznet/androidrecomp/tree/4a2004953e396fca04e940c300cad7c9f5fa77f3),
+checks the archive's SHA-256, applies the [Darwin patch](androidrecomp-darwin.patch),
+installs pinned `capstone` and `pyelftools` into a private venv, lifts both ELF
+inputs into 128 shards, and builds the iPhoneOS runtime and lifted archive:
+
+```bash
+tools/acies_ios/prepare-ios-lift.sh acies.apk "$LIFT"
+```
+
+`$LIFT` must not exist yet. It also serves as `APK_DIR`, because the script
+unpacks the APK's `assets/` there. Set `ACIES_ANDROIDRECOMP_ARCHIVE` to reuse a
+downloaded archive, `ACIES_LIFT_JOBS` to limit parallel compiles, or
+`ACIES_IOS_ADDRESS_SANITIZER=1` for an AddressSanitizer build. The host build
+script detects the sanitizer marker and bundles its runtime.
+
+The Darwin patch also fixes the runtime's pthread registry for Bionic's static
+mutex initializers. `CSLock(true)` stores `PTHREAD_RECURSIVE_MUTEX_INITIALIZER`
+(`0x4000`) without calling `pthread_mutex_init`. The original registry treated
+that value as an existing id, so the engine's task locks never excluded
+anything. Worker threads then double-released `CSArray` and animation objects,
+which caused the match-start invalid free and the post-Fireball heap
+corruption. The JNI and zlib host adapters are adapted from androidrecomp under
+the [MIT license](LICENSE.androidrecomp).
 
 ## Private LAN build
 
@@ -67,6 +85,14 @@ in the server process, so keep it running until both clients report results.
     local.acies.community.prototype
 ```
 
-The account origin uses HTTPS and system trust. The current build stages the
-account session for the translated client. A verified TLS gateway transport
-and signed iPhone authentication tests remain open.
+The account origin uses HTTPS and system trust. For a LAN lab server, set
+`ACIES_COMMUNITY_TEST_CA` to a private test CA's PEM file, as with the Android
+`--ca-cert` option. The build bundles it as `community-test-ca.der`. Account and
+game HTTPS requests then accept only chains anchored at that CA, and host or IP
+name checks still apply. Leave it unset for distributed builds. Run the server
+with `--admission-url` set to the same origin, behind a TLS proxy that presents
+a certificate for the LAN IP.
+
+On iPhoneW, the signed build passed Sign up, Sign in, and Continue (saved
+session) against a LAN server on 2026-11-21. Each flow handed the session to the
+translated client. A verified TLS gateway transport remains open.

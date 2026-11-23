@@ -1,5 +1,6 @@
 #import "community-auth.h"
 
+#import <Security/Security.h>
 #import <TargetConditionals.h>
 
 #include <cstdint>
@@ -90,10 +91,38 @@ using Reply = void (^)(NSDictionary* _Nullable, NSError* _Nullable);
 
 @end
 
+void AciesCommunityEvaluateTrust(NSURLAuthenticationChallenge* challenge,
+                                 void (^completion)(NSURLSessionAuthChallengeDisposition, NSURLCredential*)) {
+    static SecCertificateRef testAnchor = [] () -> SecCertificateRef {
+        NSURL* file = [NSBundle.mainBundle URLForResource:@"community-test-ca" withExtension:@"der"];
+        NSData* der = file ? [NSData dataWithContentsOfURL:file] : nil;
+        return der ? SecCertificateCreateWithData(nullptr, (__bridge CFDataRef)der) : nullptr;
+    }();
+    SecTrustRef trust = challenge.protectionSpace.serverTrust;
+    if (!testAnchor || !trust ||
+        ![challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+        completion(NSURLSessionAuthChallengePerformDefaultHandling, nil);
+        return;
+    }
+    const void* anchors[] = {testAnchor};
+    CFArrayRef anchorList = CFArrayCreate(nullptr, anchors, 1, &kCFTypeArrayCallBacks);
+    const bool trusted = SecTrustSetAnchorCertificates(trust, anchorList) == errSecSuccess &&
+                         SecTrustSetAnchorCertificatesOnly(trust, true) == errSecSuccess &&
+                         SecTrustEvaluateWithError(trust, nullptr);
+    CFRelease(anchorList);
+    if (trusted) completion(NSURLSessionAuthChallengeUseCredential, [NSURLCredential credentialForTrust:trust]);
+    else completion(NSURLSessionAuthChallengeCancelAuthenticationChallenge, nil);
+}
+
 @interface AciesCommunityRedirects : NSObject <NSURLSessionTaskDelegate>
 @end
 
 @implementation AciesCommunityRedirects
+- (void)URLSession:(NSURLSession*)session didReceiveChallenge:(NSURLAuthenticationChallenge*)challenge
+    completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential*))completionHandler {
+    (void)session;
+    AciesCommunityEvaluateTrust(challenge, completionHandler);
+}
 - (void)URLSession:(NSURLSession*)session task:(NSURLSessionTask*)task
     willPerformHTTPRedirection:(NSHTTPURLResponse*)response newRequest:(NSURLRequest*)request
     completionHandler:(void (^)(NSURLRequest*))completionHandler {

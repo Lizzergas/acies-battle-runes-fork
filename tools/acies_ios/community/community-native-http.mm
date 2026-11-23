@@ -10,6 +10,11 @@
 @end
 
 @implementation AciesCommunityNativeRedirects
+- (void)URLSession:(NSURLSession*)session didReceiveChallenge:(NSURLAuthenticationChallenge*)challenge
+    completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential*))completionHandler {
+    (void)session;
+    AciesCommunityEvaluateTrust(challenge, completionHandler);
+}
 - (void)URLSession:(NSURLSession*)session task:(NSURLSessionTask*)task
     willPerformHTTPRedirection:(NSHTTPURLResponse*)response newRequest:(NSURLRequest*)request
     completionHandler:(void (^)(NSURLRequest*))completionHandler {

@@ -22,6 +22,15 @@ runtime_dirs=("$aot_dir"/androidrecomp-*/runtime)
 runtime_dir="${runtime_dirs[0]}"
 sdk="$(xcrun --sdk iphoneos --show-sdk-path)"
 build_dir="$(mktemp -d "${TMPDIR:-/tmp}/acies-game-ios.XXXXXXXX")"
+trap 'rm -rf -- "$build_dir"' EXIT
+
+sanitizer=()
+sanitizer_runtime=
+if [[ -f "$aot_dir/address-sanitizer" ]]; then
+    sanitizer=(-fsanitize=address -gline-tables-only -fno-omit-frame-pointer)
+    sanitizer_runtime="$(xcrun --sdk iphoneos clang --print-file-name=libclang_rt.asan_ios_dynamic.dylib)"
+    test -f "$sanitizer_runtime"
+fi
 
 features=(-DACIES_FONT_BRIDGE)
 extra_objects=()
@@ -42,7 +51,8 @@ if [[ -n "${ACIES_GATEWAY_BRIDGE_DIR:-}" ]]; then
 fi
 
 compiler=(xcrun --sdk iphoneos clang++ -std=c++17 -O2 -target arm64-apple-ios17.0 -isysroot "$sdk"
-          -I"$source_dir" -I"$runtime_dir" -I"$aot_dir/full-image" -I"$graphics_dir" -Wall -Wextra)
+          -I"$source_dir" -I"$runtime_dir" -I"$aot_dir/full-image" -I"$graphics_dir" -Wall -Wextra
+          "${sanitizer[@]+"${sanitizer[@]}"}")
 compile() {
     local source="$1"
     local output="$2"
@@ -79,6 +89,7 @@ xcrun ar -d "$runtime_archive" jni_env.cpp.o shim_zlib.cpp.o
 xcrun ranlib "$runtime_archive"
 "${compiler[@]}" "$build_dir/"{bootstrap,icu,jni,offline,zlib,main,gles,drawable,font}.o \
     "${extra_objects[@]+"${extra_objects[@]}"}" "$aot_dir/libacies-lifted-iphoneos.a" "$runtime_archive" \
+    -Wl,-rpath,@executable_path/Frameworks \
     -framework UIKit -framework QuartzCore -framework OpenGLES \
     -framework Foundation -framework CoreGraphics -framework CoreText -framework CoreFoundation -lz -o "$build_dir/AciesGameProbe"
 xcrun vtool -show-build "$build_dir/AciesGameProbe"
@@ -101,6 +112,10 @@ test -d "$apk_dir/assets/fonts/normal"
 
 mkdir -p "$app/game-assets"/{graphics,images,sounds,fonts}
 cp "$build_dir/AciesGameProbe" "$app/AciesGameProbe"
+if [[ -n "$sanitizer_runtime" ]]; then
+    mkdir "$app/Frameworks"
+    cp "$sanitizer_runtime" "$app/Frameworks/"
+fi
 cp "$aot_dir/engine-input/"{libcdkapp.so,libc++_shared.so} "$app/"
 if [[ "${ACIES_STAGE_FULL_ASSETS:-0}" == 1 ]]; then
     cp -Rc "$apk_dir/assets/." "$app/game-assets/"
